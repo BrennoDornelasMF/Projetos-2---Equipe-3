@@ -1,0 +1,43 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Biblioteca Virtual</title>
+
+    <link rel="stylesheet" href="{% static 'core/css/style.css' %}">
+</head>
+
+<body>
+
+    <nav>
+
+        <div class="logo">
+            Book Owners
+        </div>
+
+        <div class="menu">
+            <a href="#">Início</a>
+            <a href="#">Livros</a>
+            <a href="#">Categorias</a>
+            <a href="#">Sobre</a>
+        </div>
+
+        <div class="auth-buttons">
+            <button class="btn login">Login</button>
+            <button class="btn register">Cadastrar</button>
+        </div>
+
+    </nav>
+
+    <div class="content">
+
+        {% block content %}
+        {% endblock %}
+
+    </div>
+
+</body>
+</html>

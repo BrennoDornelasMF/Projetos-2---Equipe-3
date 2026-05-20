@@ -6,9 +6,27 @@
 </head>
 <body>
 
-    <h1>Biblioteca Virtual</h1>
+{% extends 'core/base.html' %}
 
-    <p>Bem-vindo ao sistema.</p>
+{% load static %}
+
+{% block content %}
+
+<section class="hero">
+    
+    <div class="hero-image">
+        <img src ="{% static 'core/img/book_owners.png' %}" alt = "Book Owners" >
+    </div>
+
+    <div class="hero-text">
+
+        <h1>Bem-vindo à Biblioteca Virtual</h1>
+
+        <p>{% lorem 1 b random %}</p>
+
+</section>
+
+{% endblock %}
 
 </body>
 </html>
