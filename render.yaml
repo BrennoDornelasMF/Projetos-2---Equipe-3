@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: g10livros
+    name: project
     env: python
     buildCommand: "pip install -r requirements.txt && python manage.py migrate"
-    startCommand: "gunicorn g10livros.wsgi:application"
+    startCommand: "gunicorn project.wsgi:application"
