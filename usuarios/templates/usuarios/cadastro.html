@@ -1,15 +1,50 @@
-{% extends 'core/base.html'%}
-
-<!--{% load static %}-->
+{% extends 'core/base.html' %}
 
 {% block content %}
 
-<h1>Cadastro</h1>
+<div class="auth-container">
 
-<form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Cadastrar</button>
-</form>
+    <div class="auth-card">
+
+        <h1>Cadastro</h1>
+
+        <form method="POST">
+
+            {% csrf_token %}
+
+            <div class="form-group">
+                <label>Usuário</label>
+                {{ form.username }}
+            </div>
+
+            <div class="form-group">
+                <label>Email</label>
+                {{ form.email }}
+            </div>
+
+            <div class="form-group">
+                <label>Tipo de Usuário</label>
+                {{ form.tipo_usuario }}
+            </div>
+
+            <div class="form-group">
+                <label>Senha</label>
+                {{ form.password1 }}
+            </div>
+
+            <div class="form-group">
+                <label>Confirmar Senha</label>
+                {{ form.password2 }}
+            </div>
+
+            <button type="submit" class="auth-btn">
+                Cadastrar
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
 
 {% endblock %}

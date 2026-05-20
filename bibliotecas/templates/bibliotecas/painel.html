@@ -1,0 +1,92 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+
+<div class="painel-header">
+
+    <h1>Minhas Bibliotecas</h1>
+
+    <a href="{% url 'criar_biblioteca' %}">
+        <button class="auth-btn add-btn">
+            Nova Biblioteca
+        </button>
+    </a>
+
+</div>
+
+<div class="bibliotecas-grid">
+
+    {% for biblioteca in bibliotecas %}
+
+        <a
+            href="{% url 'detalhes_biblioteca' biblioteca.id %}"
+            class="biblioteca-link"
+        >
+
+            <div class="biblioteca-card">
+
+                <div class="biblioteca-image">
+
+                    {% if biblioteca.imagem %}
+
+                        <img
+                            src="{{ biblioteca.imagem.url }}"
+                            alt="{{ biblioteca.nome }}"
+                        >
+
+                    {% else %}
+
+                        <img
+                            src="https://via.placeholder.com/400x250"
+                            alt="Sem imagem"
+                        >
+
+                    {% endif %}
+
+                </div>
+
+                <div class="biblioteca-card-content">
+
+                    <h2>{{ biblioteca.nome }}</h2>
+
+                    <span class="biblioteca-local">
+                        {{ biblioteca.cidade }} - {{ biblioteca.estado }}
+                    </span>
+
+                    <p>
+                        {{ biblioteca.descricao|truncatechars:120 }}
+                    </p>
+
+                    <div class="card-buttons">
+
+                        <button class="btn register">
+                            Gerenciar
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </a>
+
+    {% empty %}
+
+        <div class="empty-state">
+
+            <h2>
+                Você ainda não cadastrou bibliotecas
+            </h2>
+
+            <p>
+                Clique em "Nova Biblioteca" para começar.
+            </p>
+
+        </div>
+
+    {% endfor %}
+
+</div>
+
+{% endblock %}

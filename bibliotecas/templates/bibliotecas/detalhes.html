@@ -1,0 +1,56 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+
+<div class="biblioteca-banner">
+
+    {% if biblioteca.imagem %}
+        <img
+            src="{{ biblioteca.imagem.url }}"
+            alt="{{ biblioteca.nome }}"
+        >
+    {% endif %}
+
+</div>
+
+<div class="biblioteca-info">
+
+    <h1>{{ biblioteca.nome }}</h1>
+
+    <span>
+        {{ biblioteca.cidade }} - {{ biblioteca.estado }}
+    </span>
+
+    <p>
+        {{ biblioteca.descricao }}
+    </p>
+
+</div>
+
+<div class="biblioteca-actions">
+
+    <button class="btn register">
+        Adicionar Livro
+    </button>
+
+    <button class="btn register">
+        Ver Empréstimos
+    </button>
+
+</div>
+
+<div class="section-title">
+
+    <h2>Acervo</h2>
+
+</div>
+
+<div class="livros-grid">
+
+    <p>
+        Nenhum livro cadastrado ainda.
+    </p>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,50 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body{
+    font-family: Arial, sans-serif;
+    background-color: #f5f7fb;
+}
+
+.content{
+    width: 100%;
+    padding: 40px;
+}
+
+.btn{
+    padding: 12px 20px;
+
+    border: none;
+    border-radius: 10px;
+
+    cursor: pointer;
+
+    font-size: 16px;
+
+    transition: 0.3s;
+}
+
+.login{
+    background-color: transparent;
+
+    border: 1px solid white;
+
+    color: white;
+}
+
+.login:hover{
+    background-color: white;
+    color: #1e1e2f;
+}
+
+.register{
+    background-color: #c7a86b;
+    color: white;
+}
+
+.register:hover{
+    opacity: 0.85;
+}

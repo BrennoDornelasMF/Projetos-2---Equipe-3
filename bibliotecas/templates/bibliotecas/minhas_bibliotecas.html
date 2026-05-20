@@ -1,0 +1,42 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+
+<h1>Minhas Bibliotecas</h1>
+
+<a href="{% url 'criar_biblioteca' %}">
+    <button class="auth-btn">
+        Nova Biblioteca
+    </button>
+</a>
+
+<br><br>
+
+{% for biblioteca in bibliotecas %}
+
+<div class="biblioteca-card">
+
+    {% if biblioteca.imagem %}
+        <img
+            src="{{ biblioteca.imagem.url }}"
+            width="250"
+        >
+    {% endif %}
+
+    <h2>{{ biblioteca.nome }}</h2>
+
+    <p>{{ biblioteca.cidade }} - {{ biblioteca.estado }}</p>
+
+    <p>{{ biblioteca.descricao }}</p>
+
+</div>
+
+<br>
+
+{% empty %}
+
+<p>Você ainda não cadastrou bibliotecas.</p>
+
+{% endfor %}
+
+{% endblock %}

@@ -2,37 +2,87 @@
 
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
+
     <meta charset="UTF-8">
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Biblioteca Virtual</title>
 
-    <link rel="stylesheet" href="{% static 'core/css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'core/css/base.css' %}">
+    <link rel="stylesheet" href="{% static 'core/css/navbar.css' %}">
+    <link rel="stylesheet" href="{% static 'core/css/home.css' %}">
+    <link rel="stylesheet" href="{% static 'core/css/auth.css' %}">
+    <link rel="stylesheet" href="{% static 'core/css/bibliotecas.css' %}">
+
 </head>
 
 <body>
 
-    <nav>
+    <nav class="navbar">
 
-        <div class="logo">
-            Book Owners
+        <div class="nav-left">
+
+            <h1 class="logo">
+                Biblioteca
+            </h1>
+
         </div>
 
-        <div class="menu">
-            <a href="#">Início</a>
-            <a href="#">Livros</a>
-            <a href="#">Categorias</a>
-            <a href="#">Sobre</a>
+        <div class="nav-center">
+
+            <a href="/">Início</a>
+
+            {% if user.is_authenticated %}
+
+                {% if user.tipo_usuario == 'bibliotecario' %}
+
+                    <a href="{% url 'painel_bibliotecario' %}">
+                        Minhas Bibliotecas
+                    </a>
+
+                    <a href="{% url 'criar_biblioteca' %}">
+                        Criar Biblioteca
+                    </a>
+
+                {% endif %}
+
+            {% endif %}
+
         </div>
 
-        <div class="auth-buttons">
-            <a href="{% url 'login' %}">
-                <button class = "btn login">Login</button>
-            </a>
-            
-            <a href="{% url 'cadastro' %}">
-                <button class = "btn register">Cadastrar</button>
-            </a>
+        <div class="nav-right">
+
+            {% if user.is_authenticated %}
+
+                <span class="user-name">
+                    Olá, {{ user.username }}
+                </span>
+
+                <a href="{% url 'logout' %}">
+                    <button class="btn login">
+                        Sair
+                    </button>
+                </a>
+
+            {% else %}
+
+                <a href="{% url 'login' %}">
+                    <button class="btn login">
+                        Login
+                    </button>
+                </a>
+
+                <a href="{% url 'cadastro' %}">
+                    <button class="btn register">
+                        Cadastrar
+                    </button>
+                </a>
+
+            {% endif %}
+
         </div>
 
     </nav>
@@ -45,4 +95,5 @@
     </div>
 
 </body>
+
 </html>

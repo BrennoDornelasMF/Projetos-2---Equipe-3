@@ -1,13 +1,32 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
+
 from .models import Usuario
 
+
 class CadastroForm(UserCreationForm):
+
     class Meta:
         model = Usuario
-        fields = ['username',
-                  'email',
-                  'tipo_usuario',
-                  'password1',
-                  'password2'
-                
+
+        fields = [
+            'username',
+            'email',
+            'tipo_usuario',
+            'password1',
+            'password2',
+        ]
+
+        widgets = {
+            'username': forms.TextInput(attrs={
+                'class': 'input-field'
+            }),
+
+            'email': forms.EmailInput(attrs={
+                'class': 'input-field'
+            }),
+
+            'tipo_usuario': forms.Select(attrs={
+                'class': 'input-field'
+            }),
+        }
