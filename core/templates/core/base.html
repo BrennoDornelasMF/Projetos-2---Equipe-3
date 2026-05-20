@@ -26,8 +26,13 @@
         </div>
 
         <div class="auth-buttons">
-            <button class="btn login">Login</button>
-            <button class="btn register">Cadastrar</button>
+            <a href="{% url 'login' %}">
+                <button class = "btn login">Login</button>
+            </a>
+            
+            <a href="{% url 'cadastro' %}">
+                <button class = "btn register">Cadastrar</button>
+            </a>
         </div>
 
     </nav>

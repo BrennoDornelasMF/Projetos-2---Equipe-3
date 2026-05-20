@@ -1,10 +1,23 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, aauthenticate
 from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.decorators import login_required
+
 
 from .forms import CadastroForm
 
 # Create your views here.
+
+@login_required
+def painel(request):
+
+    if request.user.tipo_usuario == 'leitor':
+        return render(request, 'usuarios/painel_leitor.html')
+    
+    elif request.user.tipo_usuario == 'bibliotecario':
+        return render(request, 'usuarios/painel_bibliotecario.html')
+    
+    return redirect('index')
 
 def cadastro(request):
 
