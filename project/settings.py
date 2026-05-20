@@ -30,6 +30,8 @@ ALLOWED_HOSTS = []
 
 # Application definition
 
+AUTH_USER_MODEL = 'usuarios.Usuario'
+
 INSTALLED_APPS = [
     'usuarios',
     'core',
