@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404
 
+from livros.models import Livro
 from .forms import BibliotecaForm
 from .models import Biblioteca
 
@@ -16,11 +17,16 @@ def detalhes_biblioteca(request, id):
     if biblioteca.criado_por != request.user:
         return redirect('index')
 
+    livros = Livro.objects.filter(
+        biblioteca=biblioteca
+    )
+
     return render(
         request,
         'bibliotecas/detalhes.html',
         {
-            'biblioteca': biblioteca
+            'biblioteca': biblioteca,
+            'livros': livros
         }
     )
 

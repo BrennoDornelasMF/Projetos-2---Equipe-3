@@ -26,6 +26,7 @@ urlpatterns = [
     path('', include('core.urls')),
     path('usuarios/', include('usuarios.urls')),
     path('bibliotecas/', include('bibliotecas.urls')),
+    path('livros/', include('livros.urls')),
 ]
 
 if settings.DEBUG:

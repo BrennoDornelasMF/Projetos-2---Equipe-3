@@ -29,9 +29,15 @@
 
 <div class="biblioteca-actions">
 
-    <button class="btn register">
-        Adicionar Livro
-    </button>
+    <a
+        href="{% url 'adicionar_livro' biblioteca.id %}"
+    >
+
+        <button class="btn register">
+            Adicionar Livro
+        </button>
+
+    </a>
 
     <button class="btn register">
         Ver Empréstimos
@@ -47,9 +53,128 @@
 
 <div class="livros-grid">
 
-    <p>
-        Nenhum livro cadastrado ainda.
-    </p>
+    {% for livro in livros %}
+
+        <div class="livro-card">
+
+         <div class="tabela-container">
+
+    <table class="livros-table">
+
+        <thead>
+
+            <tr>
+
+                <th>Capa</th>
+
+                <th>Título</th>
+
+                <th>Autor</th>
+
+                <th>Categoria</th>
+
+                <th>Quantidade</th>
+
+                <th>Status</th>
+
+                <th>Ações</th>
+
+            </tr>
+
+        </thead>
+
+        <tbody>
+
+            {% for livro in livros %}
+
+                <tr>
+
+                    <td>
+
+                        {% if livro.capa %}
+
+                            <img
+                                src="{{ livro.capa.url }}"
+                                class="table-image"
+                            >
+
+                        {% endif %}
+
+                    </td>
+
+                    <td>{{ livro.titulo }}</td>
+
+                    <td>{{ livro.autor }}</td>
+
+                    <td>{{ livro.categoria }}</td>
+
+                    <td>{{ livro.quantidade }}</td>
+
+                    <td>
+
+                        {% if livro.disponivel %}
+
+                            <span class="status disponivel">
+                                Disponível
+                            </span>
+
+                        {% else %}
+
+                            <span class="status indisponivel">
+                                Indisponível
+                            </span>
+
+                        {% endif %}
+
+                    </td>
+
+                    <td>
+
+                        <div class="table-actions">
+
+                            <button class="btn register">
+                                Editar
+                            </button>
+
+                            <button class="btn login">
+                                Excluir
+                            </button>
+
+                        </div>
+
+                    </td>
+
+                </tr>
+
+            {% empty %}
+
+                <tr>
+
+                    <td colspan="7">
+
+                        Nenhum livro cadastrado.
+
+                    </td>
+
+                </tr>
+
+            {% endfor %}
+
+        </tbody>
+
+    </table>
+
+</div>
+
+        </div>
+
+    {% empty %}
+
+        <p>
+            Nenhum livro cadastrado.
+        </p>
+
+    {% endfor %}
 
 </div>
 

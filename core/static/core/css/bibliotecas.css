@@ -325,3 +325,162 @@
 
     color: #1e1e2f;
 }
+
+/* =========================
+   LIVROS
+========================= */
+
+.livros-grid{
+    display: grid;
+
+    grid-template-columns: repeat(
+        auto-fit,
+        minmax(250px, 1fr)
+    );
+
+    gap: 25px;
+}
+
+.livro-card{
+    background-color: white;
+
+    border-radius: 18px;
+
+    overflow: hidden;
+
+    box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+
+    transition: 0.3s;
+}
+
+.livro-card:hover{
+    transform: translateY(-5px);
+}
+
+.livro-card img{
+    width: 100%;
+    height: 300px;
+
+    object-fit: cover;
+}
+
+.livro-info{
+    padding: 20px;
+}
+
+.livro-info h3{
+    color: #1e1e2f;
+
+    margin-bottom: 10px;
+}
+
+.livro-info span{
+    color: #c7a86b;
+
+    font-weight: bold;
+}
+
+.livro-info p{
+    margin-top: 10px;
+
+    color: #666;
+}
+
+/* =========================
+   TABELA DE LIVROS
+========================= */
+
+.tabela-container{
+    width: 100%;
+
+    overflow-x: auto;
+}
+
+.livros-table{
+    width: 100%;
+
+    border-collapse: collapse;
+
+    background-color: white;
+
+    border-radius: 18px;
+
+    overflow: hidden;
+
+    box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+}
+
+.livros-table thead{
+    background-color: #1e1e2f;
+
+    color: white;
+}
+
+.livros-table th{
+    padding: 14px 18px;
+
+    text-align: left;
+
+    font-size: 14px;
+}
+
+.livros-table td{
+    padding: 10px 18px;
+
+    border-bottom: 1px solid #eee;
+
+    vertical-align: middle;
+
+    font-size: 14px;
+}
+
+.livros-table tr{
+    height: 70px;
+}
+
+.livros-table tr:hover{
+    background-color: #f8f9fc;
+}
+
+.table-image{
+    width: 45px;
+    height: 65px;
+
+    object-fit: cover;
+
+    border-radius: 6px;
+}
+
+.status{
+    padding: 8px 14px;
+
+    border-radius: 30px;
+
+    font-size: 14px;
+
+    font-weight: bold;
+}
+
+.disponivel{
+    background-color: #d4f5dd;
+
+    color: #1d7a36;
+}
+
+.indisponivel{
+    background-color: #ffd6d6;
+
+    color: #b42323;
+}
+
+.table-actions{
+    display: flex;
+
+    gap: 8px;
+}
+
+.table-actions .btn{
+    padding: 8px 12px;
+
+    font-size: 13px;
+}
