@@ -40,10 +40,10 @@ Nossa missão é promover inclusão, inovação e empreendedorismo nas comunidad
 <br>
 
 ## 📂 Prótotipo de Baixa Fidelidade
-![Tela Login](prototipo2.jpeg)
-![Tela Menu](prototipo4.jpeg)
-![Tela Mapeamento](prototipo1.jpeg)
-![Tela Meus Livros](prototipo3.jpeg)
+![Tela Login](prototipos/prototipo2.jpeg)
+![Tela Menu](prototipos/prototipo4.jpeg)
+![Tela Mapeamento](prototipos/prototipo1.jpeg)
+![Tela Meus Livros](prototipos/prototipo3.jpeg)
 
 
 ## 🎤 SR1
