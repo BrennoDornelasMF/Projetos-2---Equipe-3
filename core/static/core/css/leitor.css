@@ -1,0 +1,108 @@
+.explorar-header{
+    margin-bottom: 30px;
+}
+
+.explorar-header h1{
+    font-size: 42px;
+
+    color: #1e1e2f;
+}
+
+.explorar-header p{
+    color: #666;
+
+    margin-top: 10px;
+}
+
+.search-form{
+    display: flex;
+
+    gap: 15px;
+
+    margin-bottom: 40px;
+}
+
+.search-form input{
+    flex: 1;
+
+    padding: 15px;
+
+    border-radius: 12px;
+
+    border: 1px solid #ddd;
+
+    font-size: 16px;
+}
+
+.search-form button{
+    padding: 15px 30px;
+
+    border: none;
+
+    border-radius: 12px;
+
+    background-color: #1e1e2f;
+
+    color: white;
+
+    cursor: pointer;
+}
+
+.bibliotecas-grid{
+    display: grid;
+
+    grid-template-columns: repeat(
+        auto-fit,
+        minmax(320px, 1fr)
+    );
+
+    gap: 30px;
+}
+
+.biblioteca-card{
+    background-color: white;
+
+    border-radius: 20px;
+
+    overflow: hidden;
+
+    box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+
+    transition: 0.3s;
+}
+
+.biblioteca-card:hover{
+    transform: translateY(-5px);
+}
+
+.biblioteca-card img{
+    width: 100%;
+
+    height: 220px;
+
+    object-fit: cover;
+}
+
+.biblioteca-card-content{
+    padding: 25px;
+}
+
+.biblioteca-card-content h2{
+    color: #1e1e2f;
+
+    margin-bottom: 10px;
+}
+
+.biblioteca-card-content span{
+    color: #c7a86b;
+
+    font-weight: bold;
+}
+
+.biblioteca-card-content p{
+    margin-top: 15px;
+
+    color: #666;
+
+    line-height: 1.6;
+}

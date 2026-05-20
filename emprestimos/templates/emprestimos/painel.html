@@ -1,0 +1,174 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+
+<div class="dashboard-header">
+
+    <h1>
+        Painel de Empréstimos
+    </h1>
+
+    <p>
+        Gerencie os empréstimos da biblioteca
+    </p>
+
+</div>
+
+<div class="tabela-container">
+
+    <table class="livros-table">
+
+        <thead>
+
+            <tr>
+
+                <th>Livro</th>
+
+                <th>Leitor</th>
+
+                <th>Status</th>
+
+                <th>Solicitado em</th>
+
+                <th>Devolução</th>
+
+                <th>Ações</th>
+
+            </tr>
+
+        </thead>
+
+        <tbody>
+
+            {% for emprestimo in emprestimos %}
+
+                <tr>
+
+                    <td>
+
+                        <div class="livro-info-table">
+
+                            {% if emprestimo.livro.capa %}
+
+                                <img
+                                    src="{{ emprestimo.livro.capa.url }}"
+                                    class="table-image"
+                                >
+
+                            {% endif %}
+
+                            <span>
+                                {{ emprestimo.livro.titulo }}
+                            </span>
+
+                        </div>
+
+                    </td>
+
+                    <td>
+                        {{ emprestimo.leitor.username }}
+                    </td>
+
+                    <td>
+
+                        {% if emprestimo.status == 'pendente' %}
+
+                            <span class="status pendente">
+                                Pendente
+                            </span>
+
+                        {% elif emprestimo.status == 'emprestado' %}
+
+                            <span class="status disponivel">
+                                Emprestado
+                            </span>
+
+                        {% else %}
+
+                            <span class="status indisponivel">
+                                Devolvido
+                            </span>
+
+                        {% endif %}
+
+                    </td>
+
+                    <td>
+                        {{ emprestimo.data_emprestimo|date:"d/m/Y" }}
+                    </td>
+
+                    <td>
+
+                        {% if emprestimo.data_devolucao %}
+
+                            <span class="data-devolucao">
+
+                                {{ emprestimo.data_devolucao|date:"d/m/Y" }}
+
+                            </span>
+
+                        {% else %}
+
+                            -
+
+                        {% endif %}
+
+                    </td>
+
+                    <td>
+
+                        <div class="table-actions">
+
+                            {% if emprestimo.status == 'pendente' %}
+
+                                <a
+                                    href="{% url 'aceitar_emprestimo' emprestimo.id %}"
+                                >
+
+                                    <button class="btn register">
+
+                                        Aprovar
+
+                                    </button>
+
+                                </a>
+
+                            {% endif %}
+
+                            {% if emprestimo.status == 'emprestado' %}
+
+                                <button class="btn login">
+
+                                    Marcar como devolvido
+
+                                </button>
+
+                            {% endif %}
+
+                        </div>
+
+                    </td>
+
+                </tr>
+
+            {% empty %}
+
+                <tr>
+
+                    <td colspan="6">
+
+                        Nenhum empréstimo encontrado.
+
+                    </td>
+
+                </tr>
+
+            {% endfor %}
+
+        </tbody>
+
+    </table>
+
+</div>
+
+{% endblock %}

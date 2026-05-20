@@ -1,10 +1,40 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404
+from django.db.models import Q
 
 from livros.models import Livro
 from .forms import BibliotecaForm
 from .models import Biblioteca
+
+@login_required
+def bibliotecas_leitor(request):
+
+    if request.user.tipo_usuario != 'leitor':
+        return redirect('index')
+
+    busca = request.GET.get('busca')
+
+    bibliotecas = Biblioteca.objects.all()
+
+    if busca:
+
+        bibliotecas = bibliotecas.filter(
+
+            Q(cidade__icontains=busca) |
+
+            Q(estado__icontains=busca) |
+
+            Q(nome__icontains=busca)
+        )
+
+    return render(
+        request,
+        'bibliotecas/lista_bibliotecas.html',
+        {
+            'bibliotecas': bibliotecas
+        }
+    )
 
 @login_required
 def detalhes_biblioteca(request, id):
@@ -14,11 +44,12 @@ def detalhes_biblioteca(request, id):
         id=id
     )
 
-    if biblioteca.criado_por != request.user:
-        return redirect('index')
-
     livros = Livro.objects.filter(
         biblioteca=biblioteca
+    )
+
+    is_dono = (
+        request.user == biblioteca.criado_por
     )
 
     return render(
@@ -26,7 +57,8 @@ def detalhes_biblioteca(request, id):
         'bibliotecas/detalhes.html',
         {
             'biblioteca': biblioteca,
-            'livros': livros
+            'livros': livros,
+            'is_dono': is_dono
         }
     )
 

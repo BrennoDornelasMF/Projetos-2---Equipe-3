@@ -3,7 +3,8 @@ from django.urls import path
 from .views import (
     criar_biblioteca,
     painel_bibliotecario,
-    detalhes_biblioteca
+    detalhes_biblioteca,
+    bibliotecas_leitor
 )
 
 urlpatterns = [
@@ -25,4 +26,10 @@ urlpatterns = [
     detalhes_biblioteca,
     name='detalhes_biblioteca'
     ),
+
+    path(
+    'explorar/',
+    bibliotecas_leitor,
+    name='bibliotecas_leitor'
+),
 ]

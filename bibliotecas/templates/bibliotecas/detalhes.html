@@ -5,17 +5,21 @@
 <div class="biblioteca-banner">
 
     {% if biblioteca.imagem %}
+
         <img
             src="{{ biblioteca.imagem.url }}"
             alt="{{ biblioteca.nome }}"
         >
+
     {% endif %}
 
 </div>
 
 <div class="biblioteca-info">
 
-    <h1>{{ biblioteca.nome }}</h1>
+    <h1>
+        {{ biblioteca.nome }}
+    </h1>
 
     <span>
         {{ biblioteca.cidade }} - {{ biblioteca.estado }}
@@ -26,6 +30,8 @@
     </p>
 
 </div>
+
+{% if is_dono %}
 
 <div class="biblioteca-actions">
 
@@ -39,25 +45,29 @@
 
     </a>
 
-    <button class="btn register">
-        Ver Empréstimos
-    </button>
+    <a
+        href="{% url 'painel_emprestimos' biblioteca.id %}"
+    >
+
+        <button class="btn register">
+            Ver Empréstimos
+        </button>
+
+    </a>
 
 </div>
+
+{% endif %}
 
 <div class="section-title">
 
-    <h2>Acervo</h2>
+    <h2>
+        Acervo
+    </h2>
 
 </div>
 
-<div class="livros-grid">
-
-    {% for livro in livros %}
-
-        <div class="livro-card">
-
-         <div class="tabela-container">
+<div class="tabela-container">
 
     <table class="livros-table">
 
@@ -102,13 +112,21 @@
 
                     </td>
 
-                    <td>{{ livro.titulo }}</td>
+                    <td>
+                        {{ livro.titulo }}
+                    </td>
 
-                    <td>{{ livro.autor }}</td>
+                    <td>
+                        {{ livro.autor }}
+                    </td>
 
-                    <td>{{ livro.categoria }}</td>
+                    <td>
+                        {{ livro.categoria }}
+                    </td>
 
-                    <td>{{ livro.quantidade }}</td>
+                    <td>
+                        {{ livro.quantidade }}
+                    </td>
 
                     <td>
 
@@ -132,13 +150,44 @@
 
                         <div class="table-actions">
 
-                            <button class="btn register">
-                                Editar
-                            </button>
+                            {% if is_dono %}
 
-                            <button class="btn login">
-                                Excluir
-                            </button>
+                                <button class="btn register">
+                                    Editar
+                                </button>
+
+                                <button class="btn login">
+                                    Excluir
+                                </button>
+
+                            {% endif %}
+
+                            {% if user.tipo_usuario == 'leitor' %}
+
+                                {% if livro.disponivel %}
+
+                                    <a
+                                        href="{% url 'solicitar_emprestimo' livro.id %}"
+                                    >
+
+                                        <button class="btn register">
+                                            Solicitar
+                                        </button>
+
+                                    </a>
+
+                                {% else %}
+
+                                    <button
+                                        class="btn login"
+                                        disabled
+                                    >
+                                        Indisponível
+                                    </button>
+
+                                {% endif %}
+
+                            {% endif %}
 
                         </div>
 
@@ -163,18 +212,6 @@
         </tbody>
 
     </table>
-
-</div>
-
-        </div>
-
-    {% empty %}
-
-        <p>
-            Nenhum livro cadastrado.
-        </p>
-
-    {% endfor %}
 
 </div>
 

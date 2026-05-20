@@ -1,60 +1,87 @@
-from django.shortcuts import render, redirect
-from django.contrib.auth import login, authenticate, logout
-from django.contrib.auth.forms import AuthenticationForm
-from django.contrib.auth.decorators import login_required
+from django.shortcuts import (
+    render,
+    redirect
+)
 
+from django.contrib.auth import (
+    authenticate,
+    login,
+    logout
+)
 
 from .forms import CadastroForm
 
-# Create your views here.
 
-def sair(request):
-
-    logout(request)
-
-    return redirect('index')
-
-@login_required
-def painel(request):
-
-    if request.user.tipo_usuario == 'leitor':
-        return render(request, 'usuarios/painel_leitor.html')
-    
-    elif request.user.tipo_usuario == 'bibliotecario':
-        return render(request, 'usuarios/painel_bibliotecario.html')
-    
-    return redirect('index')
-
-def cadastro(request):
+def cadastro_view(request):
 
     if request.method == 'POST':
 
         form = CadastroForm(request.POST)
 
         if form.is_valid():
-            user = form.save()
-            login(request, user)
-            return redirect('index')
+
+            form.save()
+
+            return redirect('login')
+
     else:
+
         form = CadastroForm()
 
-    return render(request, 'usuarios/cadastro.html', {
-        'form': form
-    })
+    return render(
+        request,
+        'usuarios/cadastro.html',
+        {
+            'form': form
+        }
+    )
 
-def entrar(request):
+
+def login_view(request):
+
+    erro = None
 
     if request.method == 'POST':
 
-        form = AuthenticationForm(request, data=request.POST)
+        username = request.POST.get('username')
 
-        if form.is_valid():
-            user = form.get_user()
+        password = request.POST.get('password')
+
+        user = authenticate(
+            request,
+            username=username,
+            password=password
+        )
+
+        if user is not None:
+
             login(request, user)
-            return redirect('painel')
-    else:
-        form = AuthenticationForm()
 
-    return render(request, 'usuarios/login.html', {
-        'form': form
-    })
+            if user.tipo_usuario == 'leitor':
+
+                return redirect(
+                    'bibliotecas_leitor'
+                )
+
+            return redirect(
+                'painel_bibliotecario'
+            )
+
+        else:
+
+            erro = 'Usuário ou senha inválidos.'
+
+    return render(
+        request,
+        'usuarios/login.html',
+        {
+            'erro': erro
+        }
+    )
+
+
+def logout_view(request):
+
+    logout(request)
+
+    return redirect('index')

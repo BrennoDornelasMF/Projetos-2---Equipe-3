@@ -1,0 +1,84 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+
+<div class="explorar-header">
+
+    <h1>
+        Bibliotecas Disponíveis
+    </h1>
+
+    <p>
+        Encontre bibliotecas na sua região
+    </p>
+
+</div>
+
+<form method="GET" class="search-form">
+
+    <input
+        type="text"
+        name="busca"
+        placeholder="Buscar por cidade, estado ou nome"
+    >
+
+    <button type="submit">
+        Buscar
+    </button>
+
+</form>
+
+<div class="bibliotecas-grid">
+
+    {% for biblioteca in bibliotecas %}
+
+        <div class="biblioteca-card">
+
+            {% if biblioteca.imagem %}
+
+                <img
+                    src="{{ biblioteca.imagem.url }}"
+                    alt="{{ biblioteca.nome }}"
+                >
+
+            {% endif %}
+
+            <div class="biblioteca-card-content">
+
+                <h2>
+                    {{ biblioteca.nome }}
+                </h2>
+
+                <span>
+                    {{ biblioteca.cidade }} - {{ biblioteca.estado }}
+                </span>
+
+                <p>
+                    {{ biblioteca.descricao|truncatechars:120 }}
+                </p>
+
+                <a
+                    href="{% url 'detalhes_biblioteca' biblioteca.id %}"
+                >
+
+                    <button class="btn register">
+                        Ver Livros
+                    </button>
+
+                </a>
+
+            </div>
+
+        </div>
+
+    {% empty %}
+
+        <p>
+            Nenhuma biblioteca encontrada.
+        </p>
+
+    {% endfor %}
+
+</div>
+
+{% endblock %}

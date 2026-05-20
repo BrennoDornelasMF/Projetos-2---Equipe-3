@@ -33,6 +33,8 @@ ALLOWED_HOSTS = []
 AUTH_USER_MODEL = 'usuarios.Usuario'
 
 INSTALLED_APPS = [
+    'dashboard',
+    'emprestimos',
     'livros',
     'bibliotecas',
     'usuarios',
