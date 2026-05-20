@@ -137,11 +137,17 @@
 
                             {% if emprestimo.status == 'emprestado' %}
 
-                                <button class="btn login">
+                                <a
+                                    href="{% url 'devolver_emprestimo' emprestimo.id %}"
+                                >
 
-                                    Marcar como devolvido
+                                    <button class="btn login">
 
-                                </button>
+                                        Marcar como devolvido
+
+                                    </button>
+
+                                </a>
 
                             {% endif %}
 

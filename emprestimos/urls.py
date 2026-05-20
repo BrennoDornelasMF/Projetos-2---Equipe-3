@@ -4,10 +4,17 @@ from .views import (
     solicitar_emprestimo,
     painel_emprestimos,
     aceitar_emprestimo,
-    devolver_livro
+    devolver_livro,
+    devolver_emprestimo
 )
 
 urlpatterns = [
+
+    path(
+    'devolver/<int:id>/',
+    devolver_emprestimo,
+    name='devolver_emprestimo'
+    ),
 
     path(
         'solicitar/<int:livro_id>/',

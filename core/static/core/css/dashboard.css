@@ -62,7 +62,7 @@
 }
 
 .data-devolucao{
-    background-color: #fff3cd;
+    background-color: #eef1c3;
 
     color: #856404;
 
@@ -73,4 +73,32 @@
     font-size: 14px;
 
     font-weight: bold;
+}
+
+.status{
+    padding: 8px 14px;
+
+    border-radius: 10px;
+
+    font-size: 14px;
+
+    font-weight: bold;
+}
+
+.status.pendente{
+    background-color: #fff3cd;
+
+    color: #856404;
+}
+
+.status.disponivel{
+    background-color: #d4edda;
+
+    color: #155724;
+}
+
+.status.indisponivel{
+    background-color: #f8d7da;
+
+    color: #721c24;
 }

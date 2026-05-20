@@ -15,6 +15,35 @@ from .models import Emprestimo
 from livros.models import Livro
 from bibliotecas.models import Biblioteca
 
+@login_required
+def devolver_emprestimo(request, id):
+
+    emprestimo = get_object_or_404(
+        Emprestimo,
+        id=id
+    )
+
+    if request.user != emprestimo.biblioteca.criado_por:
+
+        return redirect('index')
+
+    emprestimo.status = 'devolvido'
+
+    emprestimo.save()
+
+    livro = emprestimo.livro
+
+    livro.quantidade += 1
+
+    livro.disponivel = True
+
+    livro.save()
+
+    return redirect(
+        'painel_emprestimos',
+        emprestimo.biblioteca.id
+    )
+
 
 @login_required
 def solicitar_emprestimo(request, livro_id):
