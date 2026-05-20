@@ -1,0 +1,6 @@
+services:
+  - type: web
+    name: G10-Livros
+    env: python
+    buildCommand: "pip install -r requirements.txt && python manage.py migrate"
+    startCommand: "gunicorn seu_projeto.wsgi:application"
