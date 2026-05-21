@@ -1,11 +1,3 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <title>Biblioteca Virtual</title>
-</head>
-<body>
-
 {% extends 'core/base.html' %}
 
 {% load static %}
@@ -13,20 +5,53 @@
 {% block content %}
 
 <section class="hero">
-    
-    <div class="hero-image">
-        <img src ="{% static 'core/img/book_owners.png' %}" alt = "Book Owners" >
-    </div>
 
     <div class="hero-text">
+        <h1>Conhecimento ao alcance de quem transforma comunidades</h1>
+        <p>Uma biblioteca virtual criada para apoiar o acesso à educação e ao conhecimento nas comunidades atendidas pelo G10 Favelas — de forma simples, gratuita e inclusiva.</p>
+        <div class="hero-actions">
+            <a href="{% url 'cadastro' %}" class="btn-primary">Comece agora</a>
+            <a href="{% url 'login' %}" class="btn-secondary">Entrar</a>
+        </div>
+    </div>
 
-        <h1>Bem-vindo à Biblioteca Virtual</h1>
-
-        <p>{% lorem 1 b random %}</p>
+    <div class="hero-image">
+        <img src="{% static 'core/img/book_owners.png' %}" alt="BookOwners">
+    </div>
 
 </section>
 
-{% endblock %}
+<section class="features">
+    <div class="features-inner">
+        <h2>Por que usar a Biblioteca Virtual?</h2>
+        <div class="features-grid">
 
-</body>
-</html>
+            <div class="feature-card">
+                <div class="feature-icon">📚</div>
+                <h3>Acervo acessível</h3>
+                <p>Livros e materiais educativos disponíveis para moradores e empreendedores das comunidades, sem precisar sair de casa.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">🔄</div>
+                <h3>Empréstimos sem burocracia</h3>
+                <p>Solicite e acompanhe seus empréstimos de forma rápida e fácil, direto pelo celular ou computador.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">💬</div>
+                <h3>Troca de conhecimento</h3>
+                <p>Um espaço para a comunidade compartilhar recomendações, experiências e aprendizados.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">🤝</div>
+                <h3>Parceria G10 Favelas</h3>
+                <p>Desenvolvido em colaboração com o G10 Favelas para fortalecer a educação e o desenvolvimento social nas comunidades.</p>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+{% endblock %}
