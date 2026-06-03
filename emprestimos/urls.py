@@ -5,7 +5,8 @@ from .views import (
     painel_emprestimos,
     aceitar_emprestimo,
     devolver_livro,
-    devolver_emprestimo
+    devolver_emprestimo,
+    registrar_doacao
 )
 
 urlpatterns = [
@@ -39,4 +40,9 @@ urlpatterns = [
         devolver_livro,
         name='devolver_livro'
     ),
+    path(
+        'doacao/<int:biblioteca_id>/',
+        registrar_doacao,
+        name='registrar_doacao'
+        ),
 ]

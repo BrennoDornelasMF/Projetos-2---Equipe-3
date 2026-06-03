@@ -51,3 +51,33 @@ class Emprestimo(models.Model):
     def __str__(self):
 
         return f'{self.leitor} - {self.livro}'
+    
+
+class Doacao(models.Model):
+
+    livro = models.ForeignKey(
+        Livro,
+        on_delete=models.CASCADE,
+        related_name='doacoes'
+    )
+
+    biblioteca = models.ForeignKey(
+        Biblioteca,
+        on_delete=models.CASCADE,
+        related_name='doacoes'
+    )
+
+    nome_doador = models.CharField(
+        max_length=200
+    )
+
+    quantidade = models.IntegerField(
+        default=1
+    )
+
+    data_doacao = models.DateTimeField(
+        auto_now_add=True
+    )
+
+    def __str__(self):
+        return f'{self.nome_doador} - {self.livro}'

@@ -3,7 +3,8 @@ from django.shortcuts import (
     redirect,
     get_object_or_404
 )
-
+from .models import Emprestimo, Doacao
+from .forms import DoacaoForm
 from datetime import timedelta
 
 from django.utils import timezone
@@ -177,4 +178,80 @@ def devolver_livro(request, emprestimo_id):
     return redirect(
         'painel_emprestimos',
         biblioteca_id=emprestimo.biblioteca.id
+    )
+
+@login_required
+def registrar_doacao(request, biblioteca_id):
+
+    biblioteca = get_object_or_404(
+        Biblioteca,
+        id=biblioteca_id
+    )
+
+    if biblioteca.criado_por != request.user:
+        return redirect('index')
+
+    if request.method == 'POST':
+
+        form = DoacaoForm(
+            request.POST,
+            request.FILES
+        )
+
+        if form.is_valid():
+
+            titulo = form.cleaned_data['titulo']
+            autor = form.cleaned_data['autor']
+            categoria = form.cleaned_data['categoria']
+            descricao = form.cleaned_data.get('descricao', '')
+            capa = form.cleaned_data.get('capa')
+            quantidade = form.cleaned_data['quantidade']
+            nome_doador = form.cleaned_data['nome_doador']
+
+            livro = Livro.objects.filter(
+                titulo__iexact=titulo,
+                biblioteca=biblioteca
+            ).first()
+
+            if livro:
+                livro.quantidade += quantidade
+                if livro.quantidade > 0:
+                    livro.disponivel = True
+                livro.save()
+
+            else:
+                livro = Livro.objects.create(
+                    titulo=titulo,
+                    autor=autor,
+                    categoria=categoria,
+                    descricao=descricao,
+                    capa=capa,
+                    quantidade=quantidade,
+                    disponivel=True,
+                    biblioteca=biblioteca
+                )
+
+            Doacao.objects.create(
+                livro=livro,
+                biblioteca=biblioteca,
+                nome_doador=nome_doador,
+                quantidade=quantidade
+            )
+
+            return redirect(
+                'detalhes_biblioteca',
+                id=biblioteca.id
+            )
+
+    else:
+
+        form = DoacaoForm()
+
+    return render(
+        request,
+        'emprestimos/doacao.html',
+        {
+            'form': form,
+            'biblioteca': biblioteca
+        }
     )

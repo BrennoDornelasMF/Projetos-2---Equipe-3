@@ -1,6 +1,9 @@
 import os
 from pathlib import Path
 import dj_database_url
+from dotenv import load_dotenv  # adiciona essa
+
+load_dotenv()  # e essa
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 

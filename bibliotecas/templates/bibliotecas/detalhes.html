@@ -35,24 +35,22 @@
 
 <div class="biblioteca-actions">
 
-    <a
-        href="{% url 'adicionar_livro' biblioteca.id %}"
-    >
-
+    <a href="{% url 'adicionar_livro' biblioteca.id %}">
         <button class="btn register">
             Adicionar Livro
         </button>
-
     </a>
 
-    <a
-        href="{% url 'painel_emprestimos' biblioteca.id %}"
-    >
-
+    <a href="{% url 'painel_emprestimos' biblioteca.id %}">
         <button class="btn register">
             Ver Empréstimos
         </button>
+    </a>
 
+    <a href="{% url 'registrar_doacao' biblioteca.id %}">
+        <button class="btn register">
+            Registrar Doação
+        </button>
     </a>
 
 </div>
