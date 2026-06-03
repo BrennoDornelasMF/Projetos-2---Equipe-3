@@ -4,7 +4,8 @@ from .views import (
     criar_biblioteca,
     painel_bibliotecario,
     detalhes_biblioteca,
-    bibliotecas_leitor
+    bibliotecas_leitor,
+    editar_biblioteca
 )
 
 urlpatterns = [
@@ -22,14 +23,20 @@ urlpatterns = [
     ),
 
     path(
-    '<int:id>/',
-    detalhes_biblioteca,
-    name='detalhes_biblioteca'
+        '<int:id>/',
+        detalhes_biblioteca,
+        name='detalhes_biblioteca'
     ),
 
     path(
-    'explorar/',
-    bibliotecas_leitor,
-    name='bibliotecas_leitor'
-),
+        'explorar/',
+        bibliotecas_leitor,
+        name='bibliotecas_leitor'
+    ),
+
+    path(
+        'editar/<int:id>/',
+        editar_biblioteca,
+        name='editar_biblioteca'
+    ),
 ]

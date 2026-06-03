@@ -116,3 +116,45 @@ def criar_biblioteca(request):
             'form': form
         }
     )
+@login_required
+def editar_biblioteca(request, id):
+
+    biblioteca = get_object_or_404(
+        Biblioteca,
+        id=id
+    )
+
+    if biblioteca.criado_por != request.user:
+        return redirect('index')
+
+    if request.method == 'POST':
+
+        form = BibliotecaForm(
+            request.POST,
+            request.FILES,
+            instance=biblioteca
+        )
+
+        if form.is_valid():
+
+            form.save()
+
+            return redirect(
+                'detalhes_biblioteca',
+                id=biblioteca.id
+            )
+
+    else:
+
+        form = BibliotecaForm(
+            instance=biblioteca
+        )
+
+    return render(
+        request,
+        'bibliotecas/editar.html',
+        {
+            'form': form,
+            'biblioteca': biblioteca
+        }
+    )
