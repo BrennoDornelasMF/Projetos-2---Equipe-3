@@ -15,5 +15,6 @@ class LivroForm(forms.ModelForm):
             'categoria',
             'descricao',
             'capa',
-            'quantidade'
+            'quantidade',
+            'status'
         ]

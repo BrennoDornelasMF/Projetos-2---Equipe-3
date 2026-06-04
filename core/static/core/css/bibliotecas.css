@@ -472,6 +472,11 @@
 
     color: #b42323;
 }
+.reservado{
+    background-color: #fff3cd;
+
+    color: #856404;
+}
 
 .table-actions{
     display: flex;

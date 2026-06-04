@@ -55,3 +55,65 @@ def adicionar_livro(request, biblioteca_id):
             'biblioteca': biblioteca
         }
     )
+
+@login_required
+def editar_livro(request, livro_id):
+
+    livro = get_object_or_404(
+        Livro,
+        id=livro_id
+    )
+
+    if livro.biblioteca.criado_por != request.user:
+        return redirect('index')
+
+    if request.method == 'POST':
+
+        form = LivroForm(
+            request.POST,
+            request.FILES,
+            instance=livro
+        )
+
+        if form.is_valid():
+
+            form.save()
+
+            return redirect(
+                'detalhes_biblioteca',
+                id=livro.biblioteca.id
+            )
+
+    else:
+
+        form = LivroForm(instance=livro)
+
+    return render(
+        request,
+        'livros/editar.html',
+        {
+            'form': form,
+            'livro': livro
+        }
+    )
+
+
+@login_required
+def excluir_livro(request, livro_id):
+
+    livro = get_object_or_404(
+        Livro,
+        id=livro_id
+    )
+
+    if livro.biblioteca.criado_por != request.user:
+        return redirect('index')
+
+    biblioteca_id = livro.biblioteca.id
+
+    livro.delete()
+
+    return redirect(
+        'detalhes_biblioteca',
+        id=biblioteca_id
+    )

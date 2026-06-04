@@ -134,10 +134,16 @@
 
                     <td>
 
-                        {% if livro.disponivel %}
+                        {% if livro.status == 'disponivel' %}
 
                             <span class="status disponivel">
                                 Disponível
+                            </span>
+
+                        {% elif livro.status == 'reservado' %}
+
+                            <span class="status reservado">
+                                Reservado
                             </span>
 
                         {% else %}
@@ -156,23 +162,25 @@
 
                             {% if is_dono %}
 
-                                <button class="btn register">
-                                    Editar
-                                </button>
+                                <a href="{% url 'editar_livro' livro.id %}">
+                                    <button class="btn register">
+                                        Editar
+                                    </button>
+                                </a>
 
-                                <button class="btn login">
-                                    Excluir
-                                </button>
+                                <a href="{% url 'excluir_livro' livro.id %}">
+                                    <button class="btn register">
+                                        Excluir
+                                    </button>
+                                </a>
 
                             {% endif %}
 
                             {% if user.tipo_usuario == 'leitor' %}
 
-                                {% if livro.disponivel %}
+                                {% if livro.status == 'disponivel' %}
 
-                                    <a
-                                        href="{% url 'solicitar_emprestimo' livro.id %}"
-                                    >
+                                    <a href="{% url 'solicitar_emprestimo' livro.id %}">
 
                                         <button class="btn register">
                                             Solicitar

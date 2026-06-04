@@ -5,6 +5,12 @@ from bibliotecas.models import Biblioteca
 
 class Livro(models.Model):
 
+    STATUS = (
+        ('disponivel', 'Disponível'),
+        ('reservado', 'Reservado'),
+        ('indisponivel', 'Indisponível'),
+    )
+
     titulo = models.CharField(max_length=200)
 
     autor = models.CharField(max_length=200)
@@ -22,6 +28,12 @@ class Livro(models.Model):
     quantidade = models.IntegerField(default=1)
 
     disponivel = models.BooleanField(default=True)
+
+    status = models.CharField(
+        max_length=20,
+        choices=STATUS,
+        default='disponivel'
+    )
 
     biblioteca = models.ForeignKey(
         Biblioteca,
