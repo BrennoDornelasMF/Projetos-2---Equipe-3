@@ -11,11 +11,24 @@ class Livro(models.Model):
         ('indisponivel', 'Indisponível'),
     )
 
+    GENEROS = (
+        ('romance', 'Romance'),
+        ('ficcao_cientifica', 'Ficção Científica'),
+        ('historia', 'História'),
+        ('autoajuda', 'Autoajuda'),
+        ('biografia', 'Biografia'),
+        ('terror', 'Terror'),
+        ('fantasia', 'Fantasia'),
+        ('outro', 'Outro'),
+    )
+    
     titulo = models.CharField(max_length=200)
 
     autor = models.CharField(max_length=200)
 
     categoria = models.CharField(max_length=100)
+
+    genero = models.CharField(max_length = 50, choices = GENEROS, default = 'outro')
 
     descricao = models.TextField()
 

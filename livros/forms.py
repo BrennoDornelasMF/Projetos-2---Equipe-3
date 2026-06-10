@@ -13,6 +13,7 @@ class LivroForm(forms.ModelForm):
             'titulo',
             'autor',
             'categoria',
+            'Genero',
             'descricao',
             'capa',
             'quantidade',
