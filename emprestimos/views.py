@@ -24,7 +24,7 @@ def devolver_emprestimo(request, id):
         id=id
     )
 
-    if request.user != emprestimo.biblioteca.criado_por:
+    if request.user != emprestimo.biblioteca.criado_por and request.user.tipo_usuario != 'admin':
 
         return redirect('index')
 
@@ -80,7 +80,7 @@ def painel_emprestimos(request, biblioteca_id):
         id=biblioteca_id
     )
 
-    if biblioteca.criado_por != request.user:
+    if biblioteca.criado_por != request.user and request.user.tipo_usuario != 'admin':
         return redirect('index')
 
     emprestimos = Emprestimo.objects.filter(
@@ -105,7 +105,7 @@ def aceitar_emprestimo(request, id):
         id=id
     )
 
-    if request.user != emprestimo.biblioteca.criado_por:
+    if request.user != emprestimo.biblioteca.criado_por and request.user.tipo_usuario != 'admin':
 
         return redirect('index')
 
@@ -160,7 +160,7 @@ def devolver_livro(request, emprestimo_id):
         id=emprestimo_id
     )
 
-    if emprestimo.biblioteca.criado_por != request.user:
+    if emprestimo.biblioteca.criado_por != request.user and request.user.tipo_usuario != 'admin':
         return redirect('index')
 
     emprestimo.status = 'devolvido'
@@ -188,7 +188,7 @@ def registrar_doacao(request, biblioteca_id):
         id=biblioteca_id
     )
 
-    if biblioteca.criado_por != request.user:
+    if biblioteca.criado_por != request.user and request.user.tipo_usuario != 'admin':
         return redirect('index')
 
     if request.method == 'POST':

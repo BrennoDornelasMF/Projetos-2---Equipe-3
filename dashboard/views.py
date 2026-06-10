@@ -13,6 +13,23 @@ from emprestimos.models import Emprestimo
 @login_required
 def dashboard(request):
 
+
+    # DEPOIS — novo bloco no início da view
+    if user.tipo_usuario == 'admin':
+        from bibliotecas.models import Biblioteca
+        from livros.models import Livro
+        from emprestimos.models import Emprestimo
+
+        context = {
+            'tipo': 'admin',
+            'total_bibliotecas': Biblioteca.objects.count(),
+            'total_livros': Livro.objects.count(),
+            'emprestimos_ativos': Emprestimo.objects.filter(status='emprestado').count(),
+            'emprestimos_pendentes': Emprestimo.objects.filter(status='pendente').count(),
+            'bibliotecas': Biblioteca.objects.all(),
+        }
+        return render(request, 'dashboard/admin.html', context)
+
     user = request.user
 
     # =========================

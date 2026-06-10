@@ -1,0 +1,135 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+
+<div class="dashboard-header">
+
+    <h1>
+        Dashboard
+    </h1>
+
+    <p>
+        Bem-vindo, {{ user.username }}
+    </p>
+
+</div>
+
+<div class="stats-grid">
+
+    <div class="stat-card">
+
+        <h2>
+            {{ total_bibliotecas }}
+        </h2>
+
+        <span>
+            Bibliotecas
+        </span>
+
+    </div>
+
+    <div class="stat-card">
+
+        <h2>
+            {{ total_livros }}
+        </h2>
+
+        <span>
+            Livros
+        </span>
+
+    </div>
+
+    <div class="stat-card">
+
+        <h2>
+            {{ emprestimos_ativos }}
+        </h2>
+
+        <span>
+            Empréstimos Ativos
+        </span>
+
+    </div>
+
+    <div class="stat-card">
+
+        <h2>
+            {{ emprestimos_pendentes }}
+        </h2>
+
+        <span>
+            Pendentes
+        </span>
+
+    </div>
+
+</div>
+
+<div class="dashboard-section">
+
+    <div class="section-header">
+
+        <h2>
+            Minhas Bibliotecas
+        </h2>
+
+        <a href="{% url 'criar_biblioteca' %}">
+
+            <button class="btn register">
+                Nova Biblioteca
+            </button>
+
+        </a>
+
+    </div>
+
+    <div class="bibliotecas-grid">
+
+        {% for biblioteca in bibliotecas %}
+
+            <div class="biblioteca-card">
+
+                {% if biblioteca.imagem %}
+
+                    <img
+                        src="{{ biblioteca.imagem.url }}"
+                    >
+
+                {% endif %}
+
+                <div class="biblioteca-card-content">
+
+                    <h2>
+                        {{ biblioteca.nome }}
+                    </h2>
+
+                    <span>
+                        {{ biblioteca.cidade }}
+                    </span>
+
+                    <p>
+                        {{ biblioteca.descricao|truncatechars:100 }}
+                    </p>
+
+                    <a
+                        href="{% url 'detalhes_biblioteca' biblioteca.id %}"
+                    >
+
+                        <button class="btn register">
+                            Gerenciar
+                        </button>
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        {% endfor %}
+
+    </div>
+
+</div>
+
+{% endblock %}

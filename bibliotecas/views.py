@@ -66,7 +66,7 @@ def detalhes_biblioteca(request, id):
 @login_required
 def painel_bibliotecario(request):
 
-    if request.user.tipo_usuario != 'bibliotecario':
+    if request.user.tipo_usuario not in ['bibliotecario', 'admin']:
         return redirect('index')
 
     bibliotecas = Biblioteca.objects.filter(
@@ -85,7 +85,7 @@ def painel_bibliotecario(request):
 @login_required
 def criar_biblioteca(request):
 
-    if request.user.tipo_usuario != 'bibliotecario':
+    if request.user.tipo_usuario not in ['bibliotecario', 'admin']:
         return redirect('index')
 
     if request.method == 'POST':
@@ -124,7 +124,7 @@ def editar_biblioteca(request, id):
         id=id
     )
 
-    if biblioteca.criado_por != request.user:
+    if biblioteca.criado_por != request.user and request.user.tipo_usuario != 'admin':
         return redirect('index')
 
     if request.method == 'POST':

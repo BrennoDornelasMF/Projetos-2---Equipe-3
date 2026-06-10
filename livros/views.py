@@ -20,7 +20,7 @@ def adicionar_livro(request, biblioteca_id):
         id=biblioteca_id
     )
 
-    if biblioteca.criado_por != request.user:
+    if biblioteca.criado_por != request.user and request.user.tipo_usuario != 'admin':
         return redirect('index')
 
     if request.method == 'POST':
@@ -64,7 +64,7 @@ def editar_livro(request, livro_id):
         id=livro_id
     )
 
-    if livro.biblioteca.criado_por != request.user:
+    if livro.biblioteca.criado_por != request.user and request.user.tipo_usuario != 'admin':
         return redirect('index')
 
     if request.method == 'POST':

@@ -59,10 +59,11 @@ def login_view(request):
 
             if user.tipo_usuario == 'leitor':
 
-                return redirect(
-                    'bibliotecas_leitor'
-                )
+                return redirect('bibliotecas_leitor')
+            elif user.tipo_usuario == 'admin':
 
+                return redirect('dashboard')
+            
             return redirect(
                 'painel_bibliotecario'
             )
