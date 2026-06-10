@@ -28,7 +28,11 @@ class Livro(models.Model):
 
     categoria = models.CharField(max_length=100)
 
-    genero = models.CharField(max_length = 50, choices = GENEROS, default = 'outro')
+    genero = models.CharField(
+        max_length=50,
+        choices=GENEROS,
+        default='outro'
+    )
 
     descricao = models.TextField()
 
