@@ -1,0 +1,69 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+
+<div class="content">
+
+    <div class="painel-header">
+        <h1>Sugestões de títulos</h1>
+        {% if request.user.tipo_usuario == 'leitor' %}
+            <a href="{% url 'sugerir_titulo' %}" class="btn auth-btn add-btn">
+                + Nova sugestão
+            </a>
+        {% endif %}
+    </div>
+
+    {% for sugestao in sugestoes %}
+
+    <div style="background: white; border-radius: 16px; padding: 24px; margin-bottom: 20px; box-shadow: 0 5px 15px rgba(0,0,0,0.06);">
+
+        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px;">
+
+            <div>
+                <h3 style="color: #1e1e2f; margin-bottom: 4px;">{{ sugestao.titulo }}</h3>
+                <p style="color: #666; font-size: 14px;">{{ sugestao.autor }} • {{ sugestao.biblioteca.nome }}</p>
+            </div>
+
+            <span class="status {% if sugestao.status == 'aprovada' %}disponivel{% elif sugestao.status == 'recusada' %}indisponivel{% else %}reservado{% endif %}">
+                {{ sugestao.get_status_display }}
+            </span>
+
+        </div>
+
+        {% if sugestao.descricao %}
+            <p style="color: #555; font-size: 14px; margin-bottom: 16px;">{{ sugestao.descricao }}</p>
+        {% endif %}
+
+        <div style="display: flex; align-items: center; gap: 16px;">
+
+            <span style="color: #666; font-size: 14px;">{{ sugestao.votos }} voto{{ sugestao.votos|pluralize }}</span>
+
+            {% if request.user.tipo_usuario == 'leitor' and sugestao.status == 'pendente' %}
+                {% if sugestao.id in ja_votei %}
+                    <span style="color: #c7a86b; font-size: 14px; font-weight: bold;">✓ Você apoiou</span>
+                {% else %}
+                    <a href="{% url 'votar_sugestao' sugestao.id %}" class="btn" style="padding: 8px 16px; font-size: 13px; border: 1px solid #ccc; border-radius: 8px;">
+                        Apoiar
+                    </a>
+                {% endif %}
+            {% endif %}
+
+            {% if request.user.tipo_usuario in 'bibliotecario,admin' and sugestao.status == 'pendente' %}
+                <form method="POST" action="{% url 'gerenciar_sugestao' sugestao.id %}" style="display: flex; gap: 8px;">
+                    {% csrf_token %}
+                    <button name="acao" value="aprovar" class="btn auth-btn" style="padding: 8px 16px; font-size: 13px;">Aprovar</button>
+                    <button name="acao" value="recusar" class="btn" style="padding: 8px 16px; font-size: 13px; border: 1px solid #ccc; border-radius: 8px;">Recusar</button>
+                </form>
+            {% endif %}
+
+        </div>
+
+    </div>
+
+    {% empty %}
+        <p style="color: #666;">Nenhuma sugestão ainda.</p>
+    {% endfor %}
+
+</div>
+
+{% endblock %}

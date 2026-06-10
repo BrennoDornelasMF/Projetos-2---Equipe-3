@@ -1,0 +1,63 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+
+<div class="content">
+
+    <div class="painel-header">
+        <h1>Desafios de leitura</h1>
+    </div>
+
+    {% for desafio in desafios %}
+
+    {% with participacao=participacoes|default:{}  %}
+
+    <div style="background: white; border-radius: 16px; padding: 24px; margin-bottom: 20px; box-shadow: 0 5px 15px rgba(0,0,0,0.06);">
+
+        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px;">
+
+            <div>
+                <h3 style="color: #1e1e2f; margin-bottom: 4px;">{{ desafio.titulo }}</h3>
+                <p style="color: #666; font-size: 14px;">{{ desafio.biblioteca.nome }} • Termina em {{ desafio.data_fim|date:"d/m/Y" }}</p>
+            </div>
+
+            {% if desafio.esta_ativo %}
+                <span class="status disponivel">Ativo</span>
+            {% else %}
+                <span class="status indisponivel">Encerrado</span>
+            {% endif %}
+
+        </div>
+
+        <p style="color: #555; font-size: 14px; margin-bottom: 16px;">{{ desafio.descricao }}</p>
+        <p style="color: #666; font-size: 13px; margin-bottom: 8px;">Meta: {{ desafio.meta }} livro{{ desafio.meta|pluralize }}</p>
+
+        {% if desafio.id in participacoes %}
+            {% with p=participacoes|default_if_none:desafio.id %}
+            <div style="background: #f5f7fb; border-radius: 10px; height: 8px; overflow: hidden; margin-bottom: 8px;">
+                <div style="height: 100%; background: #c7a86b; width: {{ participacoes.desafio.id.progresso_percentual }}%;"></div>
+            </div>
+            {% endwith %}
+        {% endif %}
+
+        {% if request.user.tipo_usuario == 'leitor' and desafio.esta_ativo %}
+            {% if desafio.id not in participacoes %}
+                <a href="{% url 'participar_desafio' desafio.id %}" class="btn auth-btn" style="padding: 10px 20px; font-size: 14px; display: inline-block; margin-top: 10px;">
+                    Participar
+                </a>
+            {% else %}
+                <span style="color: #c7a86b; font-weight: bold; font-size: 14px;">✓ Participando</span>
+            {% endif %}
+        {% endif %}
+
+    </div>
+
+    {% endwith %}
+
+    {% empty %}
+        <p style="color: #666;">Nenhum desafio disponível no momento.</p>
+    {% endfor %}
+
+</div>
+
+{% endblock %}

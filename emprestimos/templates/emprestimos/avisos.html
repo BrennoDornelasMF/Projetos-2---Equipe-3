@@ -1,0 +1,48 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+
+<div class="content">
+
+    <div class="painel-header">
+        <h1>Meus avisos</h1>
+    </div>
+
+    {% if avisos %}
+
+        <div class="tabela-container">
+            <table class="livros-table">
+                <thead>
+                    <tr>
+                        <th>Livro</th>
+                        <th>Biblioteca</th>
+                        <th>Status</th>
+                        <th>Adicionado em</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for aviso in avisos %}
+                    <tr>
+                        <td>{{ aviso.livro.titulo }}</td>
+                        <td>{{ aviso.livro.biblioteca.nome }}</td>
+                        <td>
+                            {% if aviso.notificado %}
+                                <span class="status disponivel">Disponível!</span>
+                            {% else %}
+                                <span class="status reservado">Aguardando</span>
+                            {% endif %}
+                        </td>
+                        <td>{{ aviso.criado_em|date:"d/m/Y" }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+    {% else %}
+        <p style="color: #666;">Você não tem nenhum aviso ativo.</p>
+    {% endif %}
+
+</div>
+
+{% endblock %}

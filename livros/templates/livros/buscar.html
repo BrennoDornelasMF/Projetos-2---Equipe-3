@@ -1,0 +1,105 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+
+<div class="content">
+
+    <div class="painel-header">
+        <h1>Explorar livros</h1>
+    </div>
+
+    <form method="GET" action="{% url 'buscar_livros' %}">
+
+        <div class="biblioteca-form-grid" style="margin-bottom: 20px;">
+
+            <div class="form-group">
+                <label>Buscar</label>
+                <input
+                    type="text"
+                    name="busca"
+                    value="{{ busca }}"
+                    placeholder="Título, autor ou categoria..."
+                    class="form-input"
+                >
+            </div>
+
+            <div class="form-group">
+                <label>Gênero</label>
+                <select name="genero" class="form-input">
+                    <option value="">Todos os gêneros</option>
+                    {% for valor, nome in generos %}
+                        <option value="{{ valor }}" {% if genero_selecionado == valor %}selected{% endif %}>
+                            {{ nome }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+        </div>
+
+        <button type="submit" class="auth-btn" style="max-width: 200px;">
+            Buscar
+        </button>
+
+    </form>
+
+    <br>
+
+    {% if livros %}
+
+        <div class="tabela-container">
+            <table class="livros-table">
+                <thead>
+                    <tr>
+                        <th>Capa</th>
+                        <th>Título</th>
+                        <th>Autor</th>
+                        <th>Gênero</th>
+                        <th>Biblioteca</th>
+                        <th>Status</th>
+                        <th>Ação</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for livro in livros %}
+                    <tr>
+                        <td>
+                            {% if livro.capa %}
+                                <img src="{{ livro.capa.url }}" class="table-image">
+                            {% else %}
+                                <div class="table-image" style="background:#f0f0f0; display:flex; align-items:center; justify-content:center;">📖</div>
+                            {% endif %}
+                        </td>
+                        <td>{{ livro.titulo }}</td>
+                        <td>{{ livro.autor }}</td>
+                        <td>{{ livro.get_genero_display }}</td>
+                        <td>{{ livro.biblioteca.nome }}</td>
+                        <td>
+                            <span class="status {{ livro.status }}">
+                                {{ livro.get_status_display }}
+                            </span>
+                        </td>
+                        <td>
+                            {% if livro.disponivel %}
+                                <a href="{% url 'solicitar_emprestimo' livro.id %}" class="btn auth-btn" style="padding: 8px 14px; font-size: 13px;">
+                                    Reservar
+                                </a>
+                            {% else %}
+                                <a href="{% url 'ativar_aviso' livro.id %}" class="btn" style="padding: 8px 14px; font-size: 13px; border: 1px solid #ccc; border-radius: 8px;">
+                                    Aviso
+                                </a>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+    {% else %}
+        <p style="color: #666; margin-top: 30px;">Nenhum livro encontrado.</p>
+    {% endif %}
+
+</div>
+
+{% endblock %}
