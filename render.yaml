@@ -2,5 +2,12 @@ services:
   - type: web
     name: project
     env: python
-    buildCommand: "pip install -r requirements.txt && python manage.py collectstatic --noinput && python manage.py migrate"
+    buildCommand: "pip install -r requirements.txt && python manage.py collectstatic --noinput && python manage.py migrate && python manage.py criar_admin"
     startCommand: "gunicorn project.wsgi:application"
+    envVars:
+      - key: SUPERUSER_USERNAME
+        sync: false
+      - key: SUPERUSER_EMAIL
+        sync: false
+      - key: SUPERUSER_PASSWORD
+        sync: false
