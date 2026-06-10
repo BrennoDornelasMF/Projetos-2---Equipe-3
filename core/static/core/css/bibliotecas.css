@@ -489,3 +489,44 @@
 
     font-size: 13px;
 }
+
+/* =========================
+   PRAZO DE DEVOLUÇÃO
+========================= */
+
+.prazo-ok {
+    background-color: #eef1c3;
+    color: #856404;
+    padding: 4px 12px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: bold;
+}
+
+.prazo-urgente {
+    background-color: #ffd6d6;
+    color: #b42323;
+    padding: 4px 12px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: bold;
+}
+
+/* =========================
+   BARRA DE PROGRESSO
+========================= */
+
+.prog-bar {
+    background-color: #f0f0f0;
+    border-radius: 20px;
+    height: 8px;
+    overflow: hidden;
+    margin: 8px 0;
+}
+
+.prog-fill {
+    height: 100%;
+    border-radius: 20px;
+    background-color: #c7a86b;
+    transition: width 0.3s;
+}
