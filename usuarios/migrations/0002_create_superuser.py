@@ -5,8 +5,8 @@ def create_superuser(apps, schema_editor):
     from django.contrib.auth import get_user_model
     User = get_user_model()
 
-    username = os.environ.get('SUPERUSER_USERNAME', 'root')
-    email = os.environ.get('SUPERUSER_EMAIL', 'root@admin.com')
+    username = os.environ.get('SUPERUSER_USERNAME', 'admin')
+    email = os.environ.get('SUPERUSER_EMAIL', 'admin@admin.com')
     password = os.environ.get('SUPERUSER_PASSWORD')
 
     if password and not User.objects.filter(username=username).exists():
