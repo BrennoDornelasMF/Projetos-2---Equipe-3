@@ -3,10 +3,17 @@ from django.urls import path
 from .views import (
     adicionar_livro,
     editar_livro,
-    excluir_livro
+    excluir_livro,
+    buscar_livros,
 )
 
 urlpatterns = [
+
+    path(
+        'buscar/',
+        buscar_livros,
+        name = 'buscar_livros'
+    ),
 
     path(
         'adicionar/<int:biblioteca_id>/',
