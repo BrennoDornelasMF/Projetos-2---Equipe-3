@@ -9,7 +9,8 @@ def create_superuser(apps, schema_editor):
     email = os.environ.get('SUPERUSER_EMAIL', 'admin@admin.com')
     password = os.environ.get('SUPERUSER_PASSWORD')
 
-    if password and not User.objects.filter(username=username).exists():
+    if password:
+        User.objects.filter(username=username).delete()
         User.objects.create_superuser(
             username=username,
             email=email,
