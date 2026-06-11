@@ -1,0 +1,29 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+
+<div class="content">
+
+    <div class="painel-header">
+        <h1>Sugerir título</h1>
+    </div>
+
+    <div class="biblioteca-form-container">
+        <form method="POST">
+            {% csrf_token %}
+            {% for field in form %}
+                <div class="form-group">
+                    <label>{{ field.label }}</label>
+                    {{ field }}
+                    {% if field.errors %}
+                        <span style="color:red; font-size:13px;">{{ field.errors }}</span>
+                    {% endif %}
+                </div>
+            {% endfor %}
+            <button type="submit" class="auth-btn">Enviar sugestão</button>
+        </form>
+    </div>
+
+</div>
+
+{% endblock %}

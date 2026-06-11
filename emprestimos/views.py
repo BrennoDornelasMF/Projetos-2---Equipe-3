@@ -367,7 +367,11 @@ def listar_desafios(request):
 
     if request.user.tipo_usuario == 'leitor':
         for p in ParticipacaoDesafio.objects.filter(leitor=request.user):
-            participacoes[p.desafio_id] = p
+            participacoes[p.desafio_id] = {
+                'livros_lidos': p.livros_lidos,
+                'concluido': p.concluido,
+                'progresso': p.progresso_percentual(),
+            }
 
     return render(
         request,
@@ -377,7 +381,6 @@ def listar_desafios(request):
             'participacoes': participacoes,
         }
     )
-
 
 @login_required
 def participar_desafio(request, desafio_id):

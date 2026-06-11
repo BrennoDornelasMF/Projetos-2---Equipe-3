@@ -35,25 +35,33 @@
 
         <div class="nav-center">
 
-            <a href="/">Início</a>
+    <a href="/">Início</a>
 
-            {% if user.is_authenticated %}
+    {% if user.is_authenticated %}
 
-                {% if user.tipo_usuario == 'bibliotecario' %}
+        {% if user.tipo_usuario == 'leitor' %}
+            <a href="{% url 'buscar_livros' %}">Explorar</a>
+            <a href="{% url 'meus_avisos' %}">Meus Avisos</a>
+            <a href="{% url 'listar_sugestoes' %}">Sugestões</a>
+            <a href="{% url 'listar_desafios' %}">Desafios</a>
+        {% endif %}
 
-                    <a href="{% url 'painel_bibliotecario' %}">
-                        Minhas Bibliotecas
-                    </a>
+        {% if user.tipo_usuario == 'bibliotecario' %}
+            <a href="{% url 'painel_bibliotecario' %}">Minhas Bibliotecas</a>
+            <a href="{% url 'criar_biblioteca' %}">Criar Biblioteca</a>
+            <a href="{% url 'listar_sugestoes' %}">Sugestões</a>
+            <a href="{% url 'listar_desafios' %}">Desafios</a>
+        {% endif %}
 
-                    <a href="{% url 'criar_biblioteca' %}">
-                        Criar Biblioteca
-                    </a>
+        {% if user.tipo_usuario == 'admin' %}
+            <a href="{% url 'dashboard' %}">Dashboard</a>
+            <a href="{% url 'listar_sugestoes' %}">Sugestões</a>
+            <a href="{% url 'listar_desafios' %}">Desafios</a>
+        {% endif %}
 
-                {% endif %}
+    {% endif %}
 
-            {% endif %}
-
-        </div>
+</div>
 
         <div class="nav-right">
 

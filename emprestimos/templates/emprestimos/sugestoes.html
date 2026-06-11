@@ -48,12 +48,14 @@
                 {% endif %}
             {% endif %}
 
-            {% if request.user.tipo_usuario in 'bibliotecario,admin' and sugestao.status == 'pendente' %}
-                <form method="POST" action="{% url 'gerenciar_sugestao' sugestao.id %}" style="display: flex; gap: 8px;">
-                    {% csrf_token %}
-                    <button name="acao" value="aprovar" class="btn auth-btn" style="padding: 8px 16px; font-size: 13px;">Aprovar</button>
-                    <button name="acao" value="recusar" class="btn" style="padding: 8px 16px; font-size: 13px; border: 1px solid #ccc; border-radius: 8px;">Recusar</button>
-                </form>
+            {% if request.user.tipo_usuario == 'bibliotecario' or request.user.tipo_usuario == 'admin' %}
+                {% if sugestao.status == 'pendente' %}
+                    <form method="POST" action="{% url 'gerenciar_sugestao' sugestao.id %}" style="display: flex; gap: 8px;">
+                        {% csrf_token %}
+                        <button name="acao" value="aprovar" class="btn auth-btn" style="padding: 8px 16px; font-size: 13px;">Aprovar</button>
+                        <button name="acao" value="recusar" class="btn" style="padding: 8px 16px; font-size: 13px; border: 1px solid #ccc; border-radius: 8px;">Recusar</button>
+                    </form>
+                {% endif %}
             {% endif %}
 
         </div>

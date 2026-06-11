@@ -52,11 +52,11 @@ class Emprestimo(models.Model):
             return (self.data_devolucao - timezone.now().date()).days
         return None
 
-    def esta_atrasado(self):
+    def dias_atraso(self):
         dias = self.dias_restantes()
-        if dias is not None:
-            return dias < 0
-        return False
+        if dias is not None and dias < 0:
+            return abs(dias)
+        return 0
 
 
 class Doacao(models.Model):

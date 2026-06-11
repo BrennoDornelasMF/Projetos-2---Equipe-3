@@ -11,6 +11,7 @@
 
     <div class="tabela-container">
         <table class="livros-table">
+
             <thead>
                 <tr>
                     <th>Leitor</th>
@@ -20,25 +21,55 @@
                     <th>Status</th>
                 </tr>
             </thead>
+
             <tbody>
+
                 {% for emprestimo in emprestimos %}
+
                 <tr>
-                    <td>{{ emprestimo.leitor.get_full_name|default:emprestimo.leitor.username }}</td>
-                    <td>{{ emprestimo.leitor.email }}</td>
-                    <td>{{ emprestimo.livro.titulo }}</td>
-                    <td>{{ emprestimo.data_devolucao|date:"d/m/Y"|default:"—" }}</td>
+
+                    <td>
+                        {{ emprestimo.leitor.get_full_name|default:emprestimo.leitor.username }}
+                    </td>
+
+                    <td>
+                        {{ emprestimo.leitor.email }}
+                    </td>
+
+                    <td>
+                        {{ emprestimo.livro.titulo }}
+                    </td>
+
+                    <td>
+                        {{ emprestimo.data_devolucao|date:"d/m/Y"|default:"—" }}
+                    </td>
+
                     <td>
                         {% if emprestimo.esta_atrasado %}
-                            <span class="status indisponivel">Atrasado {{ emprestimo.dias_restantes|abs }} dias</span>
+                            <span class="status indisponivel">
+                                Atrasado {{ emprestimo.dias_atraso }} dia{{ emprestimo.dias_atraso|pluralize }}
+                            </span>
                         {% else %}
-                            <span class="status disponivel">{{ emprestimo.dias_restantes }} dia{{ emprestimo.dias_restantes|pluralize }} restante{{ emprestimo.dias_restantes|pluralize }}</span>
+                            <span class="status disponivel">
+                                {{ emprestimo.dias_restantes }} dia{{ emprestimo.dias_restantes|pluralize }} restante{{ emprestimo.dias_restantes|pluralize }}
+                            </span>
                         {% endif %}
                     </td>
+
                 </tr>
+
                 {% empty %}
-                <tr><td colspan="5" style="text-align: center; color: #666;">Nenhum leitor com livro emprestado.</td></tr>
+
+                <tr>
+                    <td colspan="5" style="text-align: center; color: #666;">
+                        Nenhum leitor com livro emprestado no momento.
+                    </td>
+                </tr>
+
                 {% endfor %}
+
             </tbody>
+
         </table>
     </div>
 
