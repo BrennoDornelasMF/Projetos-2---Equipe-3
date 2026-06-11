@@ -29,6 +29,7 @@ urlpatterns = [
     path('livros/', include('livros.urls')),
     path('emprestimos/', include('emprestimos.urls')),
     path('dashboard/', include('dashboard.urls')),
+    path('patrocinios/', include('patrocinios.urls')),
 ]
 
 if settings.DEBUG:

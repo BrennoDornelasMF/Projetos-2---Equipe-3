@@ -1,0 +1,46 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+
+<div class="painel-header">
+    <h1>Patrocínios — {{ biblioteca.nome }}</h1>
+    <a href="{% url 'registrar_patrocinio' biblioteca.id %}">
+        <button class="btn register add-btn">+ Novo Patrocínio</button>
+    </a>
+</div>
+
+<div class="tabela-container">
+
+    <table class="livros-table">
+
+        <thead>
+            <tr>
+                <th>Patrocinador</th>
+                <th>Valor</th>
+                <th>Descrição</th>
+                <th>Data</th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+            {% for p in patrocinios %}
+                <tr>
+                    <td>{{ p.nome_patrocinador }}</td>
+                    <td>R$ {{ p.valor }}</td>
+                    <td>{{ p.descricao }}</td>
+                    <td>{{ p.data }}</td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="4">Nenhum patrocínio registrado.</td>
+                </tr>
+            {% endfor %}
+
+        </tbody>
+
+    </table>
+
+</div>
+
+{% endblock %}
