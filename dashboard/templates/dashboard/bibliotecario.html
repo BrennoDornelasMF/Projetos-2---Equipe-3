@@ -3,131 +3,187 @@
 {% block content %}
 
 <div class="dashboard-header">
-
-    <h1>
-        Dashboard
-    </h1>
-
-    <p>
-        Bem-vindo, {{ user.username }}
-    </p>
-
+    <h1>Dashboard</h1>
+    <p>Bem-vindo, {{ user.username }}</p>
 </div>
 
 <div class="stats-grid">
 
     <div class="stat-card">
-
-        <h2>
-            {{ total_bibliotecas }}
-        </h2>
-
-        <span>
-            Bibliotecas
-        </span>
-
+        <h2>{{ total_bibliotecas }}</h2>
+        <span>Bibliotecas</span>
     </div>
 
     <div class="stat-card">
-
-        <h2>
-            {{ total_livros }}
-        </h2>
-
-        <span>
-            Livros
-        </span>
-
+        <h2>{{ total_livros }}</h2>
+        <span>Livros</span>
     </div>
 
     <div class="stat-card">
-
-        <h2>
-            {{ emprestimos_ativos }}
-        </h2>
-
-        <span>
-            Empréstimos Ativos
-        </span>
-
+        <h2>{{ emprestimos_ativos }}</h2>
+        <span>Empréstimos Ativos</span>
     </div>
 
     <div class="stat-card">
-
-        <h2>
-            {{ emprestimos_pendentes }}
-        </h2>
-
-        <span>
-            Pendentes
-        </span>
-
+        <h2>{{ emprestimos_pendentes }}</h2>
+        <span>Pendentes</span>
     </div>
 
 </div>
 
+<!-- P2E3-13: Livros emprestados com tempo restante de devolução -->
 <div class="dashboard-section">
 
     <div class="section-header">
+        <h2>Livros Emprestados — Tempo de Devolução</h2>
+    </div>
 
-        <h2>
-            Minhas Bibliotecas
-        </h2>
+    {% if emprestimos_com_prazo %}
 
+    <div class="tabela-container">
+        <table class="livros-table">
+            <thead>
+                <tr>
+                    <th>Livro</th>
+                    <th>Leitor</th>
+                    <th>Biblioteca</th>
+                    <th>Data Devolução</th>
+                    <th>Tempo Restante</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in emprestimos_com_prazo %}
+                <tr>
+                    <td>
+                        <div class="livro-info-table">
+                            {% if item.emprestimo.livro.capa %}
+                                <img src="{{ item.emprestimo.livro.capa.url }}" class="table-image">
+                            {% endif %}
+                            <span>{{ item.emprestimo.livro.titulo }}</span>
+                        </div>
+                    </td>
+                    <td>{{ item.emprestimo.leitor.username }}</td>
+                    <td>{{ item.emprestimo.biblioteca.nome }}</td>
+                    <td>
+                        {% if item.emprestimo.data_devolucao %}
+                            {{ item.emprestimo.data_devolucao|date:"d/m/Y" }}
+                        {% else %}
+                            —
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if item.dias_restantes is None %}
+                            <span class="status pendente">Sem prazo</span>
+                        {% elif item.situacao == 'atrasado' %}
+                            <span class="status indisponivel">
+                                {{ item.emprestimo.dias_atraso }} dia{{ item.emprestimo.dias_atraso|pluralize }} de atraso
+                            </span>
+                        {% elif item.situacao == 'urgente' %}
+                            <span class="status pendente">
+                                {{ item.dias_restantes }} dia{{ item.dias_restantes|pluralize }} restante{{ item.dias_restantes|pluralize }}
+                            </span>
+                        {% else %}
+                            <span class="status disponivel">
+                                {{ item.dias_restantes }} dias restantes
+                            </span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <form method="POST" action="{% url 'devolver_livro' item.emprestimo.id %}">
+                            {% csrf_token %}
+                            <button class="btn" style="padding: 6px 14px; font-size: 13px; border: 1px solid #ccc; border-radius: 8px; cursor: pointer;">
+                                Registrar devolução
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    {% else %}
+        <p style="color: #666; margin-top: 10px;">Nenhum livro emprestado no momento.</p>
+    {% endif %}
+
+</div>
+
+<!-- Solicitações pendentes -->
+{% if emprestimos_pendentes_lista %}
+<div class="dashboard-section">
+
+    <div class="section-header">
+        <h2>Solicitações Pendentes</h2>
+    </div>
+
+    <div class="tabela-container">
+        <table class="livros-table">
+            <thead>
+                <tr>
+                    <th>Livro</th>
+                    <th>Leitor</th>
+                    <th>Biblioteca</th>
+                    <th>Solicitado em</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for e in emprestimos_pendentes_lista %}
+                <tr>
+                    <td>
+                        <div class="livro-info-table">
+                            {% if e.livro.capa %}
+                                <img src="{{ e.livro.capa.url }}" class="table-image">
+                            {% endif %}
+                            <span>{{ e.livro.titulo }}</span>
+                        </div>
+                    </td>
+                    <td>{{ e.leitor.username }}</td>
+                    <td>{{ e.biblioteca.nome }}</td>
+                    <td>{{ e.data_emprestimo|date:"d/m/Y" }}</td>
+                    <td>
+                        <a href="{% url 'aceitar_emprestimo' e.id %}">
+                            <button class="btn register" style="padding: 6px 14px; font-size: 13px;">
+                                Aceitar
+                            </button>
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+</div>
+{% endif %}
+
+<!-- Minhas Bibliotecas -->
+<div class="dashboard-section">
+
+    <div class="section-header">
+        <h2>Minhas Bibliotecas</h2>
         <a href="{% url 'criar_biblioteca' %}">
-
-            <button class="btn register">
-                Nova Biblioteca
-            </button>
-
+            <button class="btn register">Nova Biblioteca</button>
         </a>
-
     </div>
 
     <div class="bibliotecas-grid">
-
         {% for biblioteca in bibliotecas %}
-
-            <div class="biblioteca-card">
-
-                {% if biblioteca.imagem %}
-
-                    <img
-                        src="{{ biblioteca.imagem.url }}"
-                    >
-
-                {% endif %}
-
-                <div class="biblioteca-card-content">
-
-                    <h2>
-                        {{ biblioteca.nome }}
-                    </h2>
-
-                    <span>
-                        {{ biblioteca.cidade }}
-                    </span>
-
-                    <p>
-                        {{ biblioteca.descricao|truncatechars:100 }}
-                    </p>
-
-                    <a
-                        href="{% url 'detalhes_biblioteca' biblioteca.id %}"
-                    >
-
-                        <button class="btn register">
-                            Gerenciar
-                        </button>
-
-                    </a>
-
-                </div>
-
+        <div class="biblioteca-card">
+            {% if biblioteca.imagem %}
+                <img src="{{ biblioteca.imagem.url }}">
+            {% endif %}
+            <div class="biblioteca-card-content">
+                <h2>{{ biblioteca.nome }}</h2>
+                <span>{{ biblioteca.cidade }}</span>
+                <p>{{ biblioteca.descricao|truncatechars:100 }}</p>
+                <a href="{% url 'detalhes_biblioteca' biblioteca.id %}">
+                    <button class="btn register">Gerenciar</button>
+                </a>
             </div>
-
+        </div>
         {% endfor %}
-
     </div>
 
 </div>

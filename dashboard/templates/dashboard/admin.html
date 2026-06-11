@@ -3,131 +3,203 @@
 {% block content %}
 
 <div class="dashboard-header">
-
-    <h1>
-        Dashboard
-    </h1>
-
-    <p>
-        Bem-vindo, {{ user.username }}
-    </p>
-
+    <h1>Dashboard</h1>
+    <p>Bem-vindo, {{ user.username }}</p>
 </div>
 
 <div class="stats-grid">
 
     <div class="stat-card">
-
-        <h2>
-            {{ total_bibliotecas }}
-        </h2>
-
-        <span>
-            Bibliotecas
-        </span>
-
+        <h2>{{ total_bibliotecas }}</h2>
+        <span>Bibliotecas</span>
     </div>
 
     <div class="stat-card">
-
-        <h2>
-            {{ total_livros }}
-        </h2>
-
-        <span>
-            Livros
-        </span>
-
+        <h2>{{ total_livros }}</h2>
+        <span>Livros</span>
     </div>
 
     <div class="stat-card">
-
-        <h2>
-            {{ emprestimos_ativos }}
-        </h2>
-
-        <span>
-            Empréstimos Ativos
-        </span>
-
+        <h2>{{ emprestimos_ativos }}</h2>
+        <span>Empréstimos Ativos</span>
     </div>
 
     <div class="stat-card">
-
-        <h2>
-            {{ emprestimos_pendentes }}
-        </h2>
-
-        <span>
-            Pendentes
-        </span>
-
+        <h2>{{ emprestimos_pendentes }}</h2>
+        <span>Pendentes</span>
     </div>
 
 </div>
 
+<!-- P2E3-16: Sugestões dos leitores para priorizar aquisições e doações -->
 <div class="dashboard-section">
 
     <div class="section-header">
-
-        <h2>
-            Minhas Bibliotecas
-        </h2>
-
-        <a href="{% url 'criar_biblioteca' %}">
-
-            <button class="btn register">
-                Nova Biblioteca
-            </button>
-
+        <h2>Sugestões dos Leitores</h2>
+        <a href="{% url 'listar_sugestoes' %}">
+            <button class="btn register">Ver todas</button>
         </a>
+    </div>
+
+    <!-- Resumo por status -->
+    <div class="stats-grid" style="margin-bottom: 30px;">
+
+        <div class="stat-card" style="border-left: 4px solid #856404;">
+            <h2 style="font-size: 32px;">{{ total_pendentes }}</h2>
+            <span>Pendentes</span>
+        </div>
+
+        <div class="stat-card" style="border-left: 4px solid #155724;">
+            <h2 style="font-size: 32px;">{{ total_aprovadas }}</h2>
+            <span>Aprovadas</span>
+        </div>
+
+        <div class="stat-card" style="border-left: 4px solid #721c24;">
+            <h2 style="font-size: 32px;">{{ total_recusadas }}</h2>
+            <span>Recusadas</span>
+        </div>
+
+        <div class="stat-card" style="border-left: 4px solid #1e1e2f;">
+            <h2 style="font-size: 32px;">{{ total_sugestoes }}</h2>
+            <span>Total</span>
+        </div>
 
     </div>
 
-    <div class="bibliotecas-grid">
+    <!-- Filtros -->
+    <form method="GET" style="display: flex; gap: 16px; align-items: flex-end; margin-bottom: 24px; flex-wrap: wrap;">
 
-        {% for biblioteca in bibliotecas %}
+        <div style="display: flex; flex-direction: column; gap: 6px;">
+            <label style="font-size: 13px; color: #666; font-weight: 600;">Status</label>
+            <select name="status"
+                style="padding: 10px 14px; border: 1px solid #ddd; border-radius: 10px; font-size: 14px; background: white; min-width: 160px;">
+                <option value="">Todos</option>
+                <option value="pendente" {% if filtro_status == 'pendente' %}selected{% endif %}>Pendente</option>
+                <option value="aprovada" {% if filtro_status == 'aprovada' %}selected{% endif %}>Aprovada</option>
+                <option value="recusada" {% if filtro_status == 'recusada' %}selected{% endif %}>Recusada</option>
+            </select>
+        </div>
 
-            <div class="biblioteca-card">
-
-                {% if biblioteca.imagem %}
-
-                    <img
-                        src="{{ biblioteca.imagem.url }}"
-                    >
-
-                {% endif %}
-
-                <div class="biblioteca-card-content">
-
-                    <h2>
+        <div style="display: flex; flex-direction: column; gap: 6px;">
+            <label style="font-size: 13px; color: #666; font-weight: 600;">Biblioteca</label>
+            <select name="biblioteca"
+                style="padding: 10px 14px; border: 1px solid #ddd; border-radius: 10px; font-size: 14px; background: white; min-width: 200px;">
+                <option value="">Todas</option>
+                {% for biblioteca in bibliotecas %}
+                    <option value="{{ biblioteca.id }}"
+                        {% if filtro_biblioteca == biblioteca.id|stringformat:"d" %}selected{% endif %}>
                         {{ biblioteca.nome }}
-                    </h2>
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
 
-                    <span>
-                        {{ biblioteca.cidade }}
+        <div style="display: flex; flex-direction: column; gap: 6px;">
+            <label style="font-size: 13px; color: #666; font-weight: 600;">Ordenar por</label>
+            <select name="ordenar"
+                style="padding: 10px 14px; border: 1px solid #ddd; border-radius: 10px; font-size: 14px; background: white; min-width: 160px;">
+                <option value="votos" {% if ordenar == 'votos' %}selected{% endif %}>Mais votadas</option>
+                <option value="recentes" {% if ordenar == 'recentes' %}selected{% endif %}>Mais recentes</option>
+                <option value="antigas" {% if ordenar == 'antigas' %}selected{% endif %}>Mais antigas</option>
+            </select>
+        </div>
+
+        <button type="submit" class="btn register" style="padding: 10px 24px;">
+            Filtrar
+        </button>
+
+        {% if filtro_status or filtro_biblioteca or ordenar != 'votos' %}
+            <a href="{% url 'dashboard' %}" style="padding: 10px 16px; font-size: 14px; color: #666; text-decoration: none; border: 1px solid #ddd; border-radius: 10px; background: white;">
+                Limpar filtros
+            </a>
+        {% endif %}
+
+    </form>
+
+    <!-- Lista de sugestões -->
+    {% for sugestao in sugestoes %}
+
+    <div style="background: white; border-radius: 16px; padding: 24px; margin-bottom: 16px; box-shadow: 0 5px 15px rgba(0,0,0,0.06);">
+
+        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px;">
+
+            <div style="flex: 1;">
+                <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 4px;">
+                    <h3 style="color: #1e1e2f; margin: 0;">{{ sugestao.titulo }}</h3>
+                    <!-- Badge de votos destacado para priorização -->
+                    <span style="background: #1e1e2f; color: white; padding: 4px 12px; border-radius: 20px; font-size: 13px; font-weight: bold;">
+                        ▲ {{ sugestao.votos }} voto{{ sugestao.votos|pluralize }}
                     </span>
-
-                    <p>
-                        {{ biblioteca.descricao|truncatechars:100 }}
-                    </p>
-
-                    <a
-                        href="{% url 'detalhes_biblioteca' biblioteca.id %}"
-                    >
-
-                        <button class="btn register">
-                            Gerenciar
-                        </button>
-
-                    </a>
-
                 </div>
-
+                <p style="color: #666; font-size: 14px; margin: 0;">
+                    {{ sugestao.autor }} &bull; {{ sugestao.biblioteca.nome }} &bull; sugerido por {{ sugestao.leitor.username }}
+                </p>
             </div>
 
-        {% endfor %}
+            <span class="status {% if sugestao.status == 'aprovada' %}disponivel{% elif sugestao.status == 'recusada' %}indisponivel{% else %}pendente{% endif %}"
+                  style="margin-left: 16px; white-space: nowrap;">
+                {{ sugestao.get_status_display }}
+            </span>
 
+        </div>
+
+        {% if sugestao.descricao %}
+            <p style="color: #555; font-size: 14px; margin: 10px 0 16px;">{{ sugestao.descricao }}</p>
+        {% endif %}
+
+        {% if sugestao.status == 'pendente' %}
+        <div style="display: flex; gap: 8px; margin-top: 12px;">
+            <form method="POST" action="{% url 'gerenciar_sugestao' sugestao.id %}">
+                {% csrf_token %}
+                <button name="acao" value="aprovar" class="btn register"
+                    style="padding: 8px 18px; font-size: 13px;">
+                    Aprovar para aquisição
+                </button>
+            </form>
+            <form method="POST" action="{% url 'gerenciar_sugestao' sugestao.id %}">
+                {% csrf_token %}
+                <button name="acao" value="recusar" class="btn"
+                    style="padding: 8px 18px; font-size: 13px; border: 1px solid #ccc; border-radius: 8px; cursor: pointer; background: white;">
+                    Recusar
+                </button>
+            </form>
+        </div>
+        {% endif %}
+
+    </div>
+
+    {% empty %}
+        <p style="color: #666; margin-top: 10px;">Nenhuma sugestão encontrada com os filtros selecionados.</p>
+    {% endfor %}
+
+</div>
+
+<!-- Bibliotecas -->
+<div class="dashboard-section">
+
+    <div class="section-header">
+        <h2>Bibliotecas Cadastradas</h2>
+        <a href="{% url 'criar_biblioteca' %}">
+            <button class="btn register">Nova Biblioteca</button>
+        </a>
+    </div>
+
+    <div class="bibliotecas-grid">
+        {% for biblioteca in bibliotecas %}
+        <div class="biblioteca-card">
+            {% if biblioteca.imagem %}
+                <img src="{{ biblioteca.imagem.url }}">
+            {% endif %}
+            <div class="biblioteca-card-content">
+                <h2>{{ biblioteca.nome }}</h2>
+                <span>{{ biblioteca.cidade }}</span>
+                <p>{{ biblioteca.descricao|truncatechars:100 }}</p>
+                <a href="{% url 'detalhes_biblioteca' biblioteca.id %}">
+                    <button class="btn register">Gerenciar</button>
+                </a>
+            </div>
+        </div>
+        {% endfor %}
     </div>
 
 </div>
