@@ -24,3 +24,6 @@ requests==2.32.3
 asgiref==3.8.1
 sqlparse==0.5.3
 tzdata==2025.2
+
+cloudinary
+django-cloudinary-storage
