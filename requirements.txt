@@ -1,29 +1,20 @@
-# Framework principal
-Django==5.2.14
-
-# Servidor WSGI para produção
-gunicorn==23.0.0
-
-# Banco de dados PostgreSQL
-psycopg2-binary==2.9.10
-dj-database-url==2.3.0
-
-# Arquivos estáticos em produção
-whitenoise==6.9.0
-
-# Variáveis de ambiente
-python-dotenv==1.0.1
-
-# Upload de imagens
-Pillow==11.2.1
-
-# Requisições HTTP
-requests==2.32.3
-
-# Utilitários Django
 asgiref==3.8.1
+certifi==2026.5.20
+charset-normalizer==3.4.7
+cloudinary==1.44.2
+dj-database-url==2.3.0
+Django==5.2.14
+django-cloudinary-storage==0.3.0
+gunicorn==23.0.0
+idna==3.18
+packaging==26.2
+pillow==11.2.1
+psycopg2-binary==2.9.10
+python-dotenv==1.0.1
+requests==2.32.3
+six==1.17.0
 sqlparse==0.5.3
+typing_extensions==4.15.0
 tzdata==2025.2
-
-cloudinary
-django-cloudinary-storage
+urllib3==2.7.0
+whitenoise==6.9.0
