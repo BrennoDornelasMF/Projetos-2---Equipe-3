@@ -12,81 +12,105 @@
 
             {% csrf_token %}
 
+            {% if form.non_field_errors %}
+                <div class="form-errors">
+                    {{ form.non_field_errors }}
+                </div>
+            {% endif %}
+
             <div class="biblioteca-form-grid">
 
                 <div class="form-group">
-                    <label>Usuário</label>
+                    <label>Usuário{% if form.username.field.required %} *{% endif %}</label>
                     {{ form.username }}
+                    {{ form.username.errors }}
                 </div>
 
                 <div class="form-group">
-                    <label>Email</label>
+                    <label>Email{% if form.email.field.required %} *{% endif %}</label>
                     {{ form.email }}
+                    {{ form.email.errors }}
                 </div>
 
                 <div class="form-group">
-                    <label>Tipo de Usuário</label>
+                    <label>Tipo de Usuário{% if form.tipo_usuario.field.required %} *{% endif %}</label>
                     {{ form.tipo_usuario }}
+                    {{ form.tipo_usuario.errors }}
                 </div>
 
                 <div class="form-group">
                     <label>Nome Completo</label>
                     {{ form.nome_completo }}
+                    {{ form.nome_completo.errors }}
                 </div>
 
                 <div class="form-group">
                     <label>CPF</label>
                     {{ form.cpf }}
+                    {{ form.cpf.errors }}
                 </div>
 
                 <div class="form-group">
                     <label>Telefone</label>
                     {{ form.telefone }}
+                    {{ form.telefone.errors }}
                 </div>
 
                 <div class="form-group">
                     <label>Data de Nascimento</label>
                     {{ form.data_nascimento }}
+                    {{ form.data_nascimento.errors }}
                 </div>
 
                 <div class="form-group">
                     <label>CEP</label>
                     {{ form.cep }}
+                    {{ form.cep.errors }}
                 </div>
 
                 <div class="form-group">
                     <label>Rua</label>
                     {{ form.rua }}
+                    {{ form.rua.errors }}
                 </div>
 
                 <div class="form-group">
                     <label>Número</label>
                     {{ form.numero }}
+                    {{ form.numero.errors }}
                 </div>
 
                 <div class="form-group">
                     <label>Bairro</label>
                     {{ form.bairro }}
+                    {{ form.bairro.errors }}
                 </div>
 
                 <div class="form-group">
                     <label>Cidade</label>
                     {{ form.cidade }}
+                    {{ form.cidade.errors }}
                 </div>
 
                 <div class="form-group">
                     <label>Estado</label>
                     {{ form.estado }}
+                    {{ form.estado.errors }}
                 </div>
 
                 <div class="form-group">
-                    <label>Senha</label>
+                    <label>Senha * </label>
                     {{ form.password1 }}
+                    {{ form.password1.errors }}
+                    {% if form.password1.help_text %}
+                        <small class="form-help-text">{{ form.password1.help_text }}</small>
+                    {% endif %}
                 </div>
 
                 <div class="form-group">
-                    <label>Confirmar Senha</label>
+                    <label>Confirmar Senha * </label>
                     {{ form.password2 }}
+                    {{ form.password2.errors }}
                 </div>
 
             </div>
