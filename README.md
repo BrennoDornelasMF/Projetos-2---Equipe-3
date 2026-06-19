@@ -53,6 +53,7 @@ Nossa missão é promover inclusão, inovação e empreendedorismo nas comunidad
 - [SLIDES DE APRESENTAÇÃO SR2](https://canva.link/chytfsjuawhx9mh)
 - [FIGMA](https://www.figma.com/design/PYVmwmuVVz78IDbFpk1YWU/Projetos-2?node-id=0-1&t=lCDU48XWTB4KBUrZ-1)
 - [SREENCAST](https://youtu.be/aP4vbVJbIQA)
+- [SCREENCAST DOS TESTES](https://youtu.be/VKKgXKk0Yyc)
 - [GOOGLE SITES](https://sites.google.com/cesar.school/cesarschool-eqp3/in%C3%ADcio)
 
 
